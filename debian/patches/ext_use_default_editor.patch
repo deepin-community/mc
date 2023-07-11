@@ -1,0 +1,18 @@
+Last-Update: 2013-04-03
+Author: Dmitry Smirnov <onlyjob@member.fsf.org>
+Forwarded: not-needed
+Description: Use default editor instead of vi
+
+--- a/misc/mc.ext.ini.in
++++ b/misc/mc.ext.ini.in
+@@ -1104,9 +1104,9 @@
+ Open=%cd %p/ucpio://
+ View=%view{ascii} @EXTHELPERSDIR@/archive.sh view cpio
+ 
+ [Include/editor]
+-Open=%var{EDITOR:vi} %f
++Open=%var{EDITOR:editor} %f
+ 
+ [Include/image]
+ Open=@EXTHELPERSDIR@/image.sh open ALL_FORMATS
+ View=%view{ascii} @EXTHELPERSDIR@/image.sh view ALL_FORMATS

@@ -1,7 +1,7 @@
 /*
    Routines for parsing output from the 'ls' command.
 
-   Copyright (C) 1988-2022
+   Copyright (C) 1988-2024
    Free Software Foundation, Inc.
 
    Copyright (C) 1995, 1996 Miguel de Icaza
@@ -49,10 +49,12 @@
 
 /*** file scope macro definitions ****************************************************************/
 
-/* Parsing code is used by ftpfs, fish and extfs */
+/* Parsing code is used by ftpfs, shell and extfs */
 #define MAXCOLS         30
 
 /*** file scope type declarations ****************************************************************/
+
+/*** forward declarations (file scope functions) *************************************************/
 
 /*** file scope variables ************************************************************************/
 

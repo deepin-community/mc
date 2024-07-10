@@ -1,3 +1,23 @@
+mc (3:4.8.31-1) unstable; urgency=medium
+
+  * New upstream release.
+    + Improve glib compatibility (Closes: #1051489).
+      Thanks, Jeremy Bícha.
+  * Standards-Version: 4.7.0
+  * Make thin skins on build time (Closes: #1063373)
+    Thanks, Shmerl.
+  * Added various packages to Suggests, providing binaries recognised in
+    various MC scripts. Thanks, John Mullee.
+
+ -- Dmitry Smirnov <onlyjob@debian.org>  Thu, 02 May 2024 20:54:55 +1000
+
+mc (3:4.8.30-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Build-Depends: e2fslibs-dev => libext2fs-dev.
+
+ -- Dmitry Smirnov <onlyjob@debian.org>  Sat, 25 Nov 2023 13:37:05 +1100
+
 mc (3:4.8.29-2) unstable; urgency=medium
 
   * Remove obsolete "/etc/mc/mc.ext" conffile (Closes: #1030731).

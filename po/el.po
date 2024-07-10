@@ -12,10 +12,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Midnight Commander\n"
 "Report-Msgid-Bugs-To: https://www.midnight-commander.org/\n"
-"POT-Creation-Date: 2023-01-21 18:03+0100\n"
+"POT-Creation-Date: 2024-01-27 09:33+0100\n"
 "PO-Revision-Date: 2010-12-29 10:19+0000\n"
 "Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>, 2015\n"
-"Language-Team: Greek (http://www.transifex.com/mc/mc/language/el/)\n"
+"Language-Team: Greek (http://app.transifex.com/mc/mc/language/el/)\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -717,7 +717,8 @@ msgid ""
 "                 errdhotfocus\n"
 "   Menus:        menunormal, menuhot, menusel, menuhotsel, menuinactive\n"
 "   Popup menus:  pmenunormal, pmenusel, pmenutitle\n"
-"   Editor:       editnormal, editbold, editmarked, editwhitespace,\n"
+"   Editor:       editnormal, editbold, editmarked, editwhitespace, "
+"editnonprintable,\n"
 "                 editlinestate, editbg, editframe, editframeactive\n"
 "                 editframedrag\n"
 "   Viewer:       viewnormal,viewbold, viewunderline, viewselected\n"
@@ -775,7 +776,7 @@ msgstr ""
 msgid "No arguments given to the viewer."
 msgstr "Δεν έχουν δοθεί ορίσματα στον προβολέα."
 
-msgid "Two files are required to envoke the diffviewer."
+msgid "Two files are required to invoke the diffviewer."
 msgstr ""
 
 msgid "Background protocol error"
@@ -1564,7 +1565,7 @@ msgid ""
 "written for the Midnight Commander."
 msgstr ""
 
-msgid "Copyright (C) 1996-2022 the Free Software Foundation"
+msgid "Copyright (C) 1996-2024 the Free Software Foundation"
 msgstr ""
 
 msgid "About"
@@ -2090,11 +2091,10 @@ msgstr ""
 
 #, c-format
 msgid ""
-"Cannot chdir to \"%s\"\n"
+"Cannot change directory to\n"
+"%s\n"
 "%s"
 msgstr ""
-"Αδυναμία chdir σε \"%s\"\n"
-"%s"
 
 msgid "Secure deletion"
 msgstr ""
@@ -2187,9 +2187,6 @@ msgstr ""
 msgid ""
 "Cannot chattr \"%s\"\n"
 "%s"
-msgstr ""
-
-msgid "Cannot change attributes on non-local filesystems"
 msgstr ""
 
 #, c-format
@@ -2291,9 +2288,6 @@ msgstr "Εισάγετε το όνομα του μηχανήματος (F1 γι�
 msgid "Files tagged, want to cd?"
 msgstr ""
 
-msgid "Cannot change directory"
-msgstr "Αδυναμία αλλαγής καταλόγου"
-
 #, c-format
 msgid "Link %s to:"
 msgstr "Δεσμός %s σε:"
@@ -2308,10 +2302,6 @@ msgstr "δεσμός: %s"
 #, c-format
 msgid "symlink: %s"
 msgstr ""
-
-#, c-format
-msgid "Cannot chdir to \"%s\""
-msgstr "Αδυναμία chdir στο \"%s\""
 
 msgid "View file"
 msgstr "Προβολή αρχείου"
@@ -2446,24 +2436,22 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid " %s%s file error"
-msgstr "Σφάλμα αρχείου %s%s"
-
-#, c-format
 msgid ""
-"The format of the %s%s file has changed with version 4.0. It seems that the "
-"installation has failed. Please fetch a fresh copy from the Midnight "
-"Commander package."
+"The format of the\n"
+"%s%s\n"
+"file has changed with version 4.0.\n"
+"It seems that the installation has failed.\n"
+"Please fetch a fresh copy from the Midnight Commander package."
 msgstr ""
 
 #, c-format
-msgid "%s file error"
-msgstr "Σφάλμα αρχείου %s"
-
-#, c-format
 msgid ""
-"The format of the %s file has changed with version 4.0. You may either want "
-"to copy it from %s%s or use that file as an example of how to write it."
+"The format of the\n"
+"%s\n"
+"file has changed with version 4.0.\n"
+"You may either want to copy it from\n"
+"%s%s\n"
+"or use that file as an example of how to write it."
 msgstr ""
 
 msgid "DialogTitle|Copy"
@@ -2813,8 +2801,8 @@ msgid "Con&tinue"
 msgstr "&Συνέχεια"
 
 #, c-format
-msgid "%d:%02d.%02d"
-msgstr "%d:%02d.%02d"
+msgid "%d:%02d:%02d"
+msgstr ""
 
 #, c-format
 msgid "ETA %s"
@@ -3397,9 +3385,6 @@ msgstr ""
 #, c-format
 msgid "Links:      %d"
 msgstr "Σύνδεσμοι:      %d"
-
-msgid "Attributes: not supported"
-msgstr ""
 
 #, c-format
 msgid "Attributes: %s"
@@ -4006,9 +3991,8 @@ msgstr ""
 "Απροσδόκητο τέλος αρχείου\n"
 "%s"
 
-#, fuzzy
 msgid "Inconsistent archive"
-msgstr "Χαλασμένη αρχειοθήκη tar"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -4023,67 +4007,24 @@ msgid ""
 "%s"
 msgstr ""
 
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong file name"
+msgstr ""
+
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong archive name"
+msgstr ""
+
+msgid ""
+"EXTFS virtual file system:\n"
+"cannot build command"
+msgstr ""
+
 #, c-format
 msgid "Warning: cannot open %s directory\n"
 msgstr "Προειδοποίηση: δεν ήταν δυνατό το άνοιγμα του καταλόγου %s\n"
-
-#, c-format
-msgid "fish: Disconnecting from %s"
-msgstr "fish: Γίνεται αποσύνδεση από %s"
-
-msgid "fish: Waiting for initial line..."
-msgstr ""
-
-msgid "Sorry, we cannot do password authenticated connections for now."
-msgstr ""
-"Λυπούμαστε, αλλά προς το παρόν συνδέσεις με χρήση κωδικού δεν υποστηρίζονται."
-
-#, c-format
-msgid "fish: Password is required for %s"
-msgstr "fish: Απαιτείται κωδικός πρόσβασης για %s"
-
-msgid "fish: Sending password..."
-msgstr "fish: Αποστολή κωδικού πρόσβασης..."
-
-msgid "fish: Sending initial line..."
-msgstr ""
-
-msgid "fish: Handshaking version..."
-msgstr ""
-
-msgid "fish: Getting host info..."
-msgstr "fish: Γίνεται λήψη πληροφοριών υπολογιστή..."
-
-#, c-format
-msgid "fish: Reading directory %s..."
-msgstr "fish: Ανάγνωση φακέλου %s..."
-
-#, c-format
-msgid "%s: done."
-msgstr "%s: εντάξει."
-
-#, c-format
-msgid "%s: failure"
-msgstr "%s: απέτυχε"
-
-#, c-format
-msgid "fish: store %s: sending command..."
-msgstr "fish: αποθήκευση %s: αποστολή εντολής..."
-
-msgid "fish: Local read failed, sending zeros"
-msgstr "fish: Η τοπική ανάγνωση απέτυψε, αποστέλνονται μηδενικά"
-
-msgid "fish: storing file"
-msgstr "fish: το αρχείο αποθηκεύεται"
-
-msgid "Aborting transfer..."
-msgstr "Ακύρωση μεταφοράς..."
-
-msgid "Error reported after abort."
-msgstr "Αναφέρθηκε σφάλμα μετά την ακύρωση."
-
-msgid "Aborted transfer would be successful."
-msgstr ""
 
 #, c-format
 msgid "ftpfs: Disconnecting from %s"
@@ -4194,6 +4135,14 @@ msgstr ""
 
 msgid "ftpfs: failed; nowhere to fallback to"
 msgstr ""
+
+#, c-format
+msgid "%s: failure"
+msgstr "%s: απέτυχε"
+
+#, c-format
+msgid "%s: done."
+msgstr "%s: εντάξει."
 
 msgid "ftpfs: storing file"
 msgstr "ftpfs: αποθήκευση αρχείου"
@@ -4333,12 +4282,51 @@ msgid "sftp: Listing done."
 msgstr ""
 
 #, c-format
-msgid ""
-"Cannot open tar archive\n"
-"%s"
+msgid "shell: Disconnecting from %s"
 msgstr ""
-"Άνοιγμα αρχειοθήκης tar ανεπιτυχές\n"
-"%s"
+
+msgid "shell: Waiting for initial line..."
+msgstr ""
+
+msgid "Sorry, we cannot do password authenticated connections for now."
+msgstr ""
+"Λυπούμαστε, αλλά προς το παρόν συνδέσεις με χρήση κωδικού δεν υποστηρίζονται."
+
+#, c-format
+msgid "shell: Password is required for %s"
+msgstr ""
+
+msgid "shell: Sending password..."
+msgstr ""
+
+msgid "shell: Sending initial line..."
+msgstr ""
+
+msgid "shell: Getting host info..."
+msgstr ""
+
+#, c-format
+msgid "shell: Reading directory %s..."
+msgstr ""
+
+#, c-format
+msgid "shell: store %s: sending command..."
+msgstr ""
+
+msgid "shell: Local read failed, sending zeros"
+msgstr ""
+
+msgid "shell: storing file"
+msgstr ""
+
+msgid "Aborting transfer..."
+msgstr "Ακύρωση μεταφοράς..."
+
+msgid "Error reported after abort."
+msgstr "Αναφέρθηκε σφάλμα μετά την ακύρωση."
+
+msgid "Aborted transfer would be successful."
+msgstr ""
 
 msgid "Inconsistent tar archive"
 msgstr "Χαλασμένη αρχειοθήκη tar"
@@ -4348,11 +4336,20 @@ msgstr "Απρόσμενο EOF στην αρχειοθήκη"
 
 #, c-format
 msgid ""
-"%s\n"
-"doesn't look like a tar archive."
+"Cannot open tar archive\n"
+"%s"
 msgstr ""
+"Άνοιγμα αρχειοθήκης tar ανεπιτυχές\n"
+"%s"
+
+#, c-format
+msgid ""
 "%s\n"
-"δε μοιάζει με αρχειοθήκη tar."
+"doesn't look like a tar archive"
+msgstr ""
+
+msgid "tar: mc_lseek not stopped at a record boundary"
+msgstr ""
 
 msgid "undelfs: error"
 msgstr "undelfs: σφάλμα"

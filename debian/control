@@ -7,7 +7,7 @@ Uploaders: Yury V. Zaytsev <yury@shurup.com>
           ,Denis Briand <debian@denis-briand.fr>
 Build-Depends: debhelper-compat (= 12), autopoint, intltool, bison
  ,check
- ,e2fslibs-dev
+ ,libext2fs-dev
  ,gettext
  ,libaspell-dev
  ,libglib2.0-dev
@@ -18,7 +18,7 @@ Build-Depends: debhelper-compat (= 12), autopoint, intltool, bison
 # mc determine zip mode from zip alternatives available at build-time(!)
 # hence 'unzip' needed to set proper zip mode, see #661467
  ,unzip
-Standards-Version: 4.6.2
+Standards-Version: 4.7.0
 Rules-Requires-Root: binary-targets
 Homepage: https://www.midnight-commander.org
 Vcs-Browser: https://salsa.debian.org/debian/mc
@@ -32,27 +32,77 @@ Recommends: ${misc:Recommends}
     ,perl
     ,sensible-utils
     ,unzip
-Suggests: arj
+Suggests: antiword
+         ,arc | arcanist
+         ,arj
+         ,binutils
          ,bzip2
+         ,cabextract
+         ,catdoc
          ,catdvi | texlive-binaries
+         ,clzip | lunzip | lzd | lzip | lziprecover | minilzip | pdlzip | plzip
+         ,cpio
+         ,ctorrent
          ,dbview
+         ,default-jdk-headless
+         ,djview4
          ,djvulibre-bin
-         ,epub-utils
+         ,elinks
+         ,epub-utils | ncbi-entrez-direct
+         ,exif
          ,file
          ,genisoimage
+         ,gettext
+         ,ghostscript
+         ,glade
+         ,gputils
+         ,groff-base
          ,gv
          ,imagemagick
+         ,info
+         ,jlha-utils | lhasa
+         ,kchmviewer
          ,libaspell-dev
+         ,libbatik-java
+         ,libchm-bin
+         ,liblz4-tool
+         ,libxml2-utils
+         ,links2
          ,links | w3m | lynx
-         ,odt2txt
+         ,lyx
+         ,lzma | xz-utils
+         ,man-db
+         ,mikmod
+         ,mpg321
+         ,mplayer
+         ,odt2txt | unoconv
+         ,p7zip-full
+         ,par2
+         ,poedit | potool
          ,poppler-utils
-         ,python
-         ,python-boto
-         ,python-tz
+         ,procyon-decompiler
+         ,python3:any
+         ,python3-boto
+         ,python3-tz
+         ,rar
+         ,rpm
+         ,sox
+         ,sqlite3
+         ,texlive-binaries
+         ,timidity
+         ,unace | unace-nonfree
+         ,unalz
          ,unar
+         ,unrar | unrar-free
+         ,unzip
+         ,vorbis-tools
          ,wimtools
+         ,wv
          ,xpdf | pdf-viewer
+         ,xpmutils
+         ,xz-utils
          ,zip
+         ,zstd
 Provides: mcedit
 Description: Midnight Commander - a powerful file manager
  GNU Midnight Commander is a text-mode full-screen file manager. It

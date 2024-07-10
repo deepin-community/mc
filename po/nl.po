@@ -5,6 +5,7 @@
 # Translators:
 # flipthegreat <flipthegreat@hotmail.com>, 2011
 # Heimen Stoffels <vistausss@fastmail.com>, 2013
+# Jaap Kramer <jaap-kramer@ziggo.nl>, 2023
 # Richard E. van der Luit <nippur@fedoraproject.org>, 2012-2015,2017,2020
 # Slava Zanko <slavazanko@gmail.com>, 2011
 # toniotonba <TonioTonBa@gmail.com>, 2011
@@ -14,11 +15,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Midnight Commander\n"
 "Report-Msgid-Bugs-To: https://www.midnight-commander.org/\n"
-"POT-Creation-Date: 2023-01-21 18:03+0100\n"
+"POT-Creation-Date: 2024-01-27 09:33+0100\n"
 "PO-Revision-Date: 2010-12-29 10:19+0000\n"
-"Last-Translator: Richard E. van der Luit <nippur@fedoraproject.org>, "
-"2012-2015,2017,2020\n"
-"Language-Team: Dutch (http://www.transifex.com/mc/mc/language/nl/)\n"
+"Last-Translator: Jaap Kramer <jaap-kramer@ziggo.nl>, 2023\n"
+"Language-Team: Dutch (http://app.transifex.com/mc/mc/language/nl/)\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 # "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 msgid "Warning: cannot load codepages list"
-msgstr "Waarschuwing: kan codepagina's niet laden"
+msgstr "Waarschuwing: kan lijst met codepagina's niet laden"
 
 msgid "7-bit ASCII"
 msgstr "7-bit ASCII"
@@ -535,7 +535,7 @@ msgstr ""
 "%s"
 
 msgid "Cannot close pipe descriptor (p == NULL)"
-msgstr ""
+msgstr "Kan pipe-descriptor niet sluiten (p == NULL)"
 
 #, c-format
 msgid ""
@@ -739,30 +739,13 @@ msgid ""
 "                 errdhotfocus\n"
 "   Menus:        menunormal, menuhot, menusel, menuhotsel, menuinactive\n"
 "   Popup menus:  pmenunormal, pmenusel, pmenutitle\n"
-"   Editor:       editnormal, editbold, editmarked, editwhitespace,\n"
+"   Editor:       editnormal, editbold, editmarked, editwhitespace, "
+"editnonprintable,\n"
 "                 editlinestate, editbg, editframe, editframeactive\n"
 "                 editframedrag\n"
 "   Viewer:       viewnormal,viewbold, viewunderline, viewselected\n"
 "   Help:         helpnormal, helpitalic, helpbold, helplink, helpslink\n"
 msgstr ""
-"--colors KEYWORD={FORE},{BACK},{ATTR}:KEYWORD2=...\n"
-"\n"
-"{FORE}, {BACK} and {ATTR} can be omitted, and the default will be used\n"
-"\n"
-" Keywords:\n"
-"   Global:       errors, disabled, reverse, gauge, header\n"
-"                 input, inputmark, inputunchanged, commandlinemark\n"
-"                 bbarhotkey, bbarbutton, statusbar\n"
-"   File display: normal, selected, marked, markselect\n"
-"   Dialog boxes: dnormal, dfocus, dhotnormal, dhotfocus, errdhotnormal,\n"
-"                 errdhotfocus\n"
-"   Menus:        menunormal, menuhot, menusel, menuhotsel, menuinactive\n"
-"   Popup menus:  pmenunormal, pmenusel, pmenutitle\n"
-"   Editor:       editnormal, editbold, editmarked, editwhitespace,\n"
-"                 editlinestate, editbg, editframe, editframeactive\n"
-"                 editframedrag\n"
-"   Viewer:       viewnormal,viewbold, viewunderline, viewselected\n"
-"   Help:         helpnormal, helpitalic, helpbold, helplink, helpslink\n"
 
 #. TRANSLATORS: don't translate color names and attributes
 msgid ""
@@ -829,8 +812,8 @@ msgstr "Parsefout argumenten!"
 msgid "No arguments given to the viewer."
 msgstr "Geen argumenten opgegevan aan de viewer"
 
-msgid "Two files are required to envoke the diffviewer."
-msgstr "Voor de diffviewer zijn 2 files nodig"
+msgid "Two files are required to invoke the diffviewer."
+msgstr ""
 
 msgid "Background protocol error"
 msgstr "Backgound protocol fout"
@@ -1211,6 +1194,7 @@ msgstr "Sorteren"
 
 msgid "Enter sort options (see sort(1) manpage) separated by whitespace:"
 msgstr ""
+"Voer sorteeropties in (zie sort(1) man-pagina) gescheiden door witruimte:"
 
 msgid "Sort"
 msgstr "Sorteren"
@@ -1626,7 +1610,7 @@ msgstr ""
 "Een gebruikersvriendelijke tekstbewerker\n"
 "geschreven voor de Midnight Commander"
 
-msgid "Copyright (C) 1996-2022 the Free Software Foundation"
+msgid "Copyright (C) 1996-2024 the Free Software Foundation"
 msgstr ""
 
 msgid "About"
@@ -1948,7 +1932,7 @@ msgid "Skin:"
 msgstr "Skin:"
 
 msgid "&Shadows"
-msgstr ""
+msgstr "&Schaduwen"
 
 msgid "Appearance"
 msgstr "Uiterlijk"
@@ -2163,11 +2147,10 @@ msgstr "Achtergrondtaken"
 
 #, c-format
 msgid ""
-"Cannot chdir to \"%s\"\n"
+"Cannot change directory to\n"
+"%s\n"
 "%s"
 msgstr ""
-"Veranderen naar map \"%s\" mislukt \n"
-"%s "
 
 msgid "Secure deletion"
 msgstr "Secure verwijderen"
@@ -2230,7 +2213,7 @@ msgid "No COW"
 msgstr "Geen COW"
 
 msgid "Direct access for files"
-msgstr ""
+msgstr "Directe toegang voor bestanden"
 
 msgid "Casefolded file"
 msgstr "Casefolded bestand"
@@ -2263,9 +2246,6 @@ msgid ""
 msgstr ""
 "Kan niet chattr \"%s\"\n"
 "%s"
-
-msgid "Cannot change attributes on non-local filesystems"
-msgstr "Kan attributen van niet-lokale bestandssystemen niet veranderen"
 
 #, c-format
 msgid ""
@@ -2368,9 +2348,6 @@ msgstr "Voer computernaam in (F1 voor details):"
 msgid "Files tagged, want to cd?"
 msgstr "Bestanden gemarkeerd, veranderen van map?"
 
-msgid "Cannot change directory"
-msgstr "Veranderen van map mislukt"
-
 #, c-format
 msgid "Link %s to:"
 msgstr "%s verbinden met:"
@@ -2385,10 +2362,6 @@ msgstr "link: %s"
 #, c-format
 msgid "symlink: %s"
 msgstr "symlink: %s"
-
-#, c-format
-msgid "Cannot chdir to \"%s\""
-msgstr "'chdir' naar %s mislukt"
 
 msgid "View file"
 msgstr "Bestand bekijken"
@@ -2523,26 +2496,27 @@ msgid ""
 "Midnight Commander now uses %s file.\n"
 "Please copy your modifications of the old file to the new one."
 msgstr ""
-
-#, c-format
-msgid " %s%s file error"
-msgstr " %s%s bestandsfout "
+"U heeft een verouderd %s bestand.\n"
+"Midnight Commander gebruikt nu %s bestand.\n"
+"Please copy your modifications of the old file to the new one."
 
 #, c-format
 msgid ""
-"The format of the %s%s file has changed with version 4.0. It seems that the "
-"installation has failed. Please fetch a fresh copy from the Midnight "
-"Commander package."
+"The format of the\n"
+"%s%s\n"
+"file has changed with version 4.0.\n"
+"It seems that the installation has failed.\n"
+"Please fetch a fresh copy from the Midnight Commander package."
 msgstr ""
 
 #, c-format
-msgid "%s file error"
-msgstr "%s bestandsfout"
-
-#, c-format
 msgid ""
-"The format of the %s file has changed with version 4.0. You may either want "
-"to copy it from %s%s or use that file as an example of how to write it."
+"The format of the\n"
+"%s\n"
+"file has changed with version 4.0.\n"
+"You may either want to copy it from\n"
+"%s%s\n"
+"or use that file as an example of how to write it."
 msgstr ""
 
 msgid "DialogTitle|Copy"
@@ -2839,13 +2813,13 @@ msgid "(stalled)"
 msgstr "(geblokkeerd)"
 
 msgid "Incomplete file was retrieved"
-msgstr ""
+msgstr "Onvolledig bestand is opgehaald"
 
 msgid "&Keep"
 msgstr "&Behouden"
 
 msgid "&Continue copy"
-msgstr ""
+msgstr "&Ga door met kopiëren"
 
 #, c-format
 msgid ""
@@ -2925,8 +2899,8 @@ msgid "Con&tinue"
 msgstr "&Doorgaan"
 
 #, c-format
-msgid "%d:%02d.%02d"
-msgstr "%d:%02d.%02d"
+msgid "%d:%02d:%02d"
+msgstr ""
 
 #, c-format
 msgid "ETA %s"
@@ -2982,7 +2956,7 @@ msgstr "Achtergrond proces: Bestand bestaat"
 
 #, c-format
 msgid "Files processed: %zu / %zu"
-msgstr ""
+msgstr "Bestanden verwerkt: %zu / %zu"
 
 #, c-format
 msgid "Files processed: %zu"
@@ -3010,7 +2984,7 @@ msgstr " Totaal: %s "
 
 #, c-format
 msgid " Total: %s / %s "
-msgstr ""
+msgstr " Totaal: %s / %s "
 
 msgid "Source"
 msgstr "Bron"
@@ -3062,7 +3036,7 @@ msgid "&Listing format..."
 msgstr "&Lijstformaat..."
 
 msgid "&Sort order..."
-msgstr ""
+msgstr "&Sorteer volgorde…"
 
 msgid "&Filter..."
 msgstr "&Filter...              "
@@ -3077,7 +3051,7 @@ msgid "S&hell link..."
 msgstr "S&hellverbinding...    "
 
 msgid "SFTP li&nk..."
-msgstr ""
+msgstr "SFTP li&nk…"
 
 msgid "Paneli&ze"
 msgstr "Als vens&ter"
@@ -3291,7 +3265,7 @@ msgid "&Find recursively"
 msgstr "&Vind recursief"
 
 msgid "Follow s&ymlinks"
-msgstr ""
+msgstr "Volg s&ymlinks"
 
 msgid "S&kip hidden"
 msgstr "S&la verborgen over"
@@ -3460,7 +3434,7 @@ msgstr "Geen informatie over schijfruimte"
 
 #, c-format
 msgid "Free space: %s / %s (%d%%)"
-msgstr ""
+msgstr "Vrije ruimte: %s / %s (%d%%)"
 
 #, c-format
 msgid "Type:       %s"
@@ -3511,9 +3485,6 @@ msgstr "Eigenaar: %s/%s"
 #, c-format
 msgid "Links:      %d"
 msgstr "Links: %d"
-
-msgid "Attributes: not supported"
-msgstr "Attributies: niet ondersteund"
 
 #, c-format
 msgid "Attributes: %s"
@@ -3740,6 +3711,8 @@ msgid ""
 "External panelize:\n"
 "%s"
 msgstr ""
+"Externe panelen:\n"
+"%s"
 
 #, c-format
 msgid ""
@@ -3747,6 +3720,9 @@ msgid ""
 "failed to read data from child stdout:\n"
 "%s"
 msgstr ""
+"Externe panelen:\n"
+"kon gegevens van kind stdout\n"
+"%s niet lezen:"
 
 msgid "Cannot run external panelize in a non-local directory"
 msgstr "Uitvoeren extern venster is niet mogelijk in een niet-lokale map"
@@ -4015,7 +3991,7 @@ msgstr "Built met ncursesw (onbekende versie)"
 
 #, c-format
 msgid "Built with libssh2 %d.%d.%d\n"
-msgstr ""
+msgstr "Gebouwd met libssh2 %d.%d.%d\n"
 
 msgid "Virtual File Systems:"
 msgstr "Virtuele bestandssystemen (VFS):"
@@ -4143,9 +4119,8 @@ msgstr ""
 "Onverwacht einde van bestand in\n"
 "%s"
 
-#, fuzzy
 msgid "Inconsistent archive"
-msgstr "Inconsistent tar-archief"
+msgstr "Inconsistent archief"
 
 #, c-format
 msgid ""
@@ -4153,74 +4128,36 @@ msgid ""
 "%s:\n"
 "%s"
 msgstr ""
+"Kan %s archief niet openen\n"
+"%s:\n"
+"%s"
 
 #, c-format
 msgid ""
 "EXTFS virtual file system:\n"
 "%s"
 msgstr ""
+"EXTFS virtueel bestandssysteem:\n"
+"%s"
+
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong file name"
+msgstr ""
+
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong archive name"
+msgstr ""
+
+msgid ""
+"EXTFS virtual file system:\n"
+"cannot build command"
+msgstr ""
 
 #, c-format
 msgid "Warning: cannot open %s directory\n"
 msgstr "Waarschuwing: kan map %s niet openen\n"
-
-#, c-format
-msgid "fish: Disconnecting from %s"
-msgstr "fish: Verbinding verbreken met %s"
-
-msgid "fish: Waiting for initial line..."
-msgstr "fish: Wachten op initiële lijn..."
-
-msgid "Sorry, we cannot do password authenticated connections for now."
-msgstr ""
-"Helaas, wachtwoord-beveiligde verbindingen zijn op dit moment niet mogelijk."
-
-#, c-format
-msgid "fish: Password is required for %s"
-msgstr "fish: Wachtwoord is verplicht voor %s"
-
-msgid "fish: Sending password..."
-msgstr "fish: Wachtwoord wordt verstuurd..."
-
-msgid "fish: Sending initial line..."
-msgstr "fish: Initiële lijn wordt verstuurd..."
-
-msgid "fish: Handshaking version..."
-msgstr "fish: Versie handshaking..."
-
-msgid "fish: Getting host info..."
-msgstr "fish: Verkrijgen van host-informatie..."
-
-#, c-format
-msgid "fish: Reading directory %s..."
-msgstr "fish: Map %s wordt gelezen..."
-
-#, c-format
-msgid "%s: done."
-msgstr "%s: voltooid."
-
-#, c-format
-msgid "%s: failure"
-msgstr " %s: fout "
-
-#, c-format
-msgid "fish: store %s: sending command..."
-msgstr "fish: bewaar %s: opdracht verzenden..."
-
-msgid "fish: Local read failed, sending zeros"
-msgstr "fisch: Lokale leesopdracht mislukt, nullen worden verzonden"
-
-msgid "fish: storing file"
-msgstr "fish: opslaan van bestand"
-
-msgid "Aborting transfer..."
-msgstr "Overdracht wordt verbroken..."
-
-msgid "Error reported after abort."
-msgstr "Fout gemeld na verbreking."
-
-msgid "Aborted transfer would be successful."
-msgstr "Verbroken transfer zou een success zijn."
 
 #, c-format
 msgid "ftpfs: Disconnecting from %s"
@@ -4277,18 +4214,18 @@ msgstr "Aan het wachten op nieuwe poging... %d (Control-C om af te breken)"
 
 #, c-format
 msgid "ftpfs: could not make address-to-name translation: %s"
-msgstr ""
+msgstr "ftpfs: kon adres-naar-naam vertaling niet maken: %s"
 
 #, c-format
 msgid "ftpfs: try reconnect to server, attempt %u"
-msgstr ""
+msgstr "ftpfs: probeer opnieuw verbinding te maken met de server, poging %u"
 
 #, c-format
 msgid "ftpfs: could not get socket name: %s"
-msgstr ""
+msgstr "ftpfs: kon de socketnaam niet krijgen: %s"
 
 msgid "ftpfs: could not reconnect to server"
-msgstr ""
+msgstr "ftpfs: kon niet opnieuw verbinding maken met de server"
 
 msgid "ftpfs: invalid address family"
 msgstr "ftpfs: Ongeldige adres familie"
@@ -4332,6 +4269,14 @@ msgstr "(eerst chdir)"
 msgid "ftpfs: failed; nowhere to fallback to"
 msgstr "ftpfs: mislukt; geen terugvalmogelijkheid "
 
+#, c-format
+msgid "%s: failure"
+msgstr " %s: fout "
+
+#, c-format
+msgid "%s: done."
+msgstr "%s: voltooid."
+
 msgid "ftpfs: storing file"
 msgstr "ftpfs: bestand opslaan"
 
@@ -4347,6 +4292,8 @@ msgid ""
 "SFS virtual file system:\n"
 "%s"
 msgstr ""
+"SFS virtueel bestandssysteem:\n"
+"%s"
 
 #, c-format
 msgid "%s: Warning: file %s not found\n"
@@ -4383,7 +4330,7 @@ msgid "sftp: %s"
 msgstr "sftp: %s"
 
 msgid "sftp: failed to convert remote host IP address into text form"
-msgstr ""
+msgstr "sftp: kon het IP-adres van de externe host niet omzetten in tekstvorm"
 
 #, c-format
 msgid "sftp: making connection to %s"
@@ -4397,10 +4344,10 @@ msgid "sftp: connection to server failed: %s"
 msgstr "sftp: verbinding met server mislukt: %s"
 
 msgid "sftp: found host key of unsupported type: RSA1"
-msgstr ""
+msgstr "sftp: hostsleutel gevonden van niet ondersteund type: RSA1"
 
 msgid "sftp: unknown host key type:"
-msgstr ""
+msgstr "sftp: onbekende host sleuteltype"
 
 #, c-format
 msgid ""
@@ -4408,15 +4355,18 @@ msgid ""
 "%s (%s)\n"
 "to the list of known hosts."
 msgstr ""
+"%s (%s) permanent toegevoegd\n"
+"aan de lijst met bekende hosts."
 
 msgid "sftp: cannot get the remote host key"
-msgstr ""
+msgstr "sftp: kan de externe hostsleutel niet ophalen"
 
 msgid "sftp: unsupported key type, can't check remote host key"
 msgstr ""
+"sftp: niet-ondersteund sleuteltype, kan externe hostsleutel niet controleren"
 
 msgid "sftp: can't compute host key fingerprint hash"
-msgstr ""
+msgstr "kan de vingerafdrukhash van de hostsleutel niet berekenen"
 
 #, c-format
 msgid ""
@@ -4427,6 +4377,13 @@ msgid ""
 "SHA1:%s.\n"
 "Do you want to add it to the list of known hosts and continue connecting?"
 msgstr ""
+"De authenticiteit van host\n"
+"%s (%s)\n"
+"kan niet worden vastgesteld!\n"
+"%s sleutel vingerafdruk hash is\n"
+"SHA1:%s.\n"
+"Wil je het toevoegen aan de lijst met bekende hosts en doorgaan met "
+"verbinden?"
 
 #, c-format
 msgid ""
@@ -4436,9 +4393,14 @@ msgid ""
 "Are you sure you want to add it to the list of known hosts and continue "
 "connecting?"
 msgstr ""
+"%s (%s)\n"
+"is te vinden in de lijst met bekende hosts maar\n"
+"SLEUTELS KOMEN NIET OVEREEN! DIT KAN EEN MITM-AANVAL ZIJN!\n"
+"Weet je zeker dat je deze wilt toevoegen aan de lijst met bekende hosts en "
+"wilt doorgaan met verbinden?"
 
 msgid "sftp: host key verification failed"
-msgstr ""
+msgstr "sftp: verificatie van hostsleutel mislukt"
 
 #, c-format
 msgid "sftp: Enter passphrase for %s "
@@ -4455,7 +4417,7 @@ msgid "sftp: Password is empty."
 msgstr "sftp: Wachtwoord is leeg."
 
 msgid "sftp: failure establishing SSH session"
-msgstr ""
+msgstr "sftp: fout bij het opzetten van SSH-sessie"
 
 msgid "sftp: No file handler data present for reading file"
 msgstr "sftp: Geen gegevens over bestand aanwezig om bestand te kunnen lezen"
@@ -4472,12 +4434,51 @@ msgid "sftp: Listing done."
 msgstr "sftp: Klaar met opsomming."
 
 #, c-format
-msgid ""
-"Cannot open tar archive\n"
-"%s"
+msgid "shell: Disconnecting from %s"
 msgstr ""
-"Openen tar-archief mislukt\n"
-"%s"
+
+msgid "shell: Waiting for initial line..."
+msgstr ""
+
+msgid "Sorry, we cannot do password authenticated connections for now."
+msgstr ""
+"Helaas, wachtwoord-beveiligde verbindingen zijn op dit moment niet mogelijk."
+
+#, c-format
+msgid "shell: Password is required for %s"
+msgstr ""
+
+msgid "shell: Sending password..."
+msgstr ""
+
+msgid "shell: Sending initial line..."
+msgstr ""
+
+msgid "shell: Getting host info..."
+msgstr ""
+
+#, c-format
+msgid "shell: Reading directory %s..."
+msgstr ""
+
+#, c-format
+msgid "shell: store %s: sending command..."
+msgstr ""
+
+msgid "shell: Local read failed, sending zeros"
+msgstr ""
+
+msgid "shell: storing file"
+msgstr ""
+
+msgid "Aborting transfer..."
+msgstr "Overdracht wordt verbroken..."
+
+msgid "Error reported after abort."
+msgstr "Fout gemeld na verbreking."
+
+msgid "Aborted transfer would be successful."
+msgstr "Verbroken transfer zou een success zijn."
 
 msgid "Inconsistent tar archive"
 msgstr "Inconsistent tar-archief"
@@ -4487,9 +4488,20 @@ msgstr "Onverwachte EOF in archiefbestand"
 
 #, c-format
 msgid ""
+"Cannot open tar archive\n"
+"%s"
+msgstr ""
+"Openen tar-archief mislukt\n"
+"%s"
+
+#, c-format
+msgid ""
 "%s\n"
-"doesn't look like a tar archive."
-msgstr "%s lijkt niet op een tar archief"
+"doesn't look like a tar archive"
+msgstr ""
+
+msgid "tar: mc_lseek not stopped at a record boundary"
+msgstr ""
 
 msgid "undelfs: error"
 msgstr "undelfs: fout"

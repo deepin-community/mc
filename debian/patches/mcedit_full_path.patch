@@ -21,14 +21,14 @@ Description: 'mcedit' status line to show full path to file, like in 'mcview'.
  binary files, you should set
 --- a/src/editor/edit.c
 +++ b/src/editor/edit.c
-@@ -92,9 +92,9 @@
- gboolean option_cursor_beyond_eol = FALSE;
- gboolean option_line_state = FALSE;
- int option_line_state_width = 0;
- gboolean option_cursor_after_inserted_block = FALSE;
--gboolean option_state_full_filename = FALSE;
-+gboolean option_state_full_filename = TRUE;
- 
- gboolean enable_show_tabs_tws = TRUE;
- gboolean option_check_nl_at_eof = FALSE;
- gboolean option_group_undo = FALSE;
+@@ -87,9 +87,9 @@
+     .persistent_selections = TRUE,
+     .drop_selection_on_copy = TRUE,
+     .cursor_beyond_eol = FALSE,
+     .cursor_after_inserted_block = FALSE,
+-    .state_full_filename = FALSE,
++    .state_full_filename = TRUE,
+     .line_state = FALSE,
+     .line_state_width = 0,
+     .save_mode = EDIT_QUICK_SAVE,
+     .confirm_save = TRUE,

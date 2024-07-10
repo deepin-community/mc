@@ -5,7 +5,7 @@ Description: Use default editor instead of vi
 
 --- a/misc/mc.ext.ini.in
 +++ b/misc/mc.ext.ini.in
-@@ -1104,9 +1104,9 @@
+@@ -1148,9 +1148,9 @@
  Open=%cd %p/ucpio://
  View=%view{ascii} @EXTHELPERSDIR@/archive.sh view cpio
  

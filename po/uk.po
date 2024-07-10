@@ -10,6 +10,7 @@
 # Andriy Smilyanets <smile.andriy@gmail.com>, 2019
 # Oleksandr Natalenko <oleksandr@natalenko.name>, 2011, 2012
 # Sergey Fesyura <pingvein@gmail.com>, 2012-2013
+# Rostyslav Haitkulov <info@ubilling.net.ua>, 2023
 # Serhii Trykoza <sergey.trikoza@gmail.com>, 2019
 # Slava Zanko <slavazanko@gmail.com>, 2011
 # Vlad Anisimov <uniss@ua.fm>, 2019
@@ -18,10 +19,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Midnight Commander\n"
 "Report-Msgid-Bugs-To: https://www.midnight-commander.org/\n"
-"POT-Creation-Date: 2023-01-21 18:03+0100\n"
+"POT-Creation-Date: 2024-01-27 09:33+0100\n"
 "PO-Revision-Date: 2010-12-29 10:19+0000\n"
-"Last-Translator: Andrij Mizyk <andm1zyk@proton.me>, 2022\n"
-"Language-Team: Ukrainian (http://www.transifex.com/mc/mc/language/uk/)\n"
+"Last-Translator: Rostyslav Haitkulov <info@ubilling.net.ua>, 2023\n"
+"Language-Team: Ukrainian (http://app.transifex.com/mc/mc/language/uk/)\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -749,31 +750,13 @@ msgid ""
 "                 errdhotfocus\n"
 "   Menus:        menunormal, menuhot, menusel, menuhotsel, menuinactive\n"
 "   Popup menus:  pmenunormal, pmenusel, pmenutitle\n"
-"   Editor:       editnormal, editbold, editmarked, editwhitespace,\n"
+"   Editor:       editnormal, editbold, editmarked, editwhitespace, "
+"editnonprintable,\n"
 "                 editlinestate, editbg, editframe, editframeactive\n"
 "                 editframedrag\n"
 "   Viewer:       viewnormal,viewbold, viewunderline, viewselected\n"
 "   Help:         helpnormal, helpitalic, helpbold, helplink, helpslink\n"
 msgstr ""
-"--colors КЛЮЧ={ТЕКСТ},{ФОН},{АТРИБУТ}:KEYWORD2=...\n"
-"\n"
-"{ТЕКСТ}, {ФОН} та {АТРИБУТ} можна не вказувати, в такому випадку будуть "
-"використовуватись стандартні значення\n"
-"\n"
-"Ключі :\n"
-"   Глобальні:       errors, disabled, reverse, gauge, header\n"
-"                 input, inputmark, inputunchanged, commandlinemark\n"
-"                 bbarhotkey, bbarbutton, statusbar\n"
-"   Відображення файлів: normal, selected, marked, markselect\n"
-"   Діалогові вікна: dnormal, dfocus, dhotnormal, dhotfocus, errdhotnormal,\n"
-"                 errdhotfocus\n"
-"   Меню:        menunormal, menuhot, menusel, menuhotsel, menuinactive\n"
-"   Контекстні меню:  pmenunormal, pmenusel, pmenutitle\n"
-"   Редактор:       editnormal, editbold, editmarked, editwhitespace,\n"
-"                 editlinestate, editbg, editframe, editframeactive\n"
-"                 editframedrag\n"
-"   Переглядач:       viewnormal,viewbold, viewunderline, viewselected\n"
-"   Довідка:         helpnormal, helpitalic, helpbold, helplink, helpslink\n"
 
 #. TRANSLATORS: don't translate color names and attributes
 msgid ""
@@ -840,8 +823,8 @@ msgstr "Сталася помилка під час обробки аргуме�
 msgid "No arguments given to the viewer."
 msgstr "Переглядачу не передано жодних аргументів."
 
-msgid "Two files are required to envoke the diffviewer."
-msgstr "Для виклику diffviewer необхідно два файли."
+msgid "Two files are required to invoke the diffviewer."
+msgstr ""
 
 msgid "Background protocol error"
 msgstr "Сталася помилка фонового протоколу"
@@ -1640,8 +1623,8 @@ msgstr ""
 "Дружній до користувача редактор тексту\n"
 "написаний для Midnight Commander."
 
-msgid "Copyright (C) 1996-2022 the Free Software Foundation"
-msgstr "Авторські права (C) 1996-2022 Фонд вільного програмного забезпечення"
+msgid "Copyright (C) 1996-2024 the Free Software Foundation"
+msgstr ""
 
 msgid "About"
 msgstr "Про програму"
@@ -2174,11 +2157,10 @@ msgstr "Фонові завдання"
 
 #, c-format
 msgid ""
-"Cannot chdir to \"%s\"\n"
+"Cannot change directory to\n"
+"%s\n"
 "%s"
 msgstr ""
-"Не вдалося змінити каталог на «%s»\n"
-"%s "
 
 msgid "Secure deletion"
 msgstr "Безпечне видалення"
@@ -2274,9 +2256,6 @@ msgid ""
 msgstr ""
 "Не вдалося змінити атрибути \"%s\"\n"
 "%s"
-
-msgid "Cannot change attributes on non-local filesystems"
-msgstr "Не можливо змінити атрибути на нелокальних файлових системах"
 
 #, c-format
 msgid ""
@@ -2379,9 +2358,6 @@ msgstr "Введіть назву машини (F1 — подробиці):"
 msgid "Files tagged, want to cd?"
 msgstr "Відмічено файли, змінити каталог?"
 
-msgid "Cannot change directory"
-msgstr "Не вдалося змінити каталог"
-
 #, c-format
 msgid "Link %s to:"
 msgstr "Створити посилання на %s:"
@@ -2396,10 +2372,6 @@ msgstr "посилання: %s"
 #, c-format
 msgid "symlink: %s"
 msgstr "символьне посилання: %s"
-
-#, c-format
-msgid "Cannot chdir to \"%s\""
-msgstr "Не вдалося перейти в каталог «%s»"
 
 msgid "View file"
 msgstr "Перегляд файлу"
@@ -2539,29 +2511,23 @@ msgstr ""
 "Скопіюйте свою модифікацію старого файлу у новий."
 
 #, c-format
-msgid " %s%s file error"
-msgstr " Сталася помилка файлу %s%s"
+msgid ""
+"The format of the\n"
+"%s%s\n"
+"file has changed with version 4.0.\n"
+"It seems that the installation has failed.\n"
+"Please fetch a fresh copy from the Midnight Commander package."
+msgstr ""
 
 #, c-format
 msgid ""
-"The format of the %s%s file has changed with version 4.0. It seems that the "
-"installation has failed. Please fetch a fresh copy from the Midnight "
-"Commander package."
+"The format of the\n"
+"%s\n"
+"file has changed with version 4.0.\n"
+"You may either want to copy it from\n"
+"%s%s\n"
+"or use that file as an example of how to write it."
 msgstr ""
-"Формат файлу %s%s змінено у версії 4.0.  Схоже, що інсталяція завершилася "
-"невдало. Будь ласка, отримайте свіжу копію з пакунка Midnight Commander."
-
-#, c-format
-msgid "%s file error"
-msgstr "Сталася помилка файлу %s"
-
-#, c-format
-msgid ""
-"The format of the %s file has changed with version 4.0. You may either want "
-"to copy it from %s%s or use that file as an example of how to write it."
-msgstr ""
-"Формат файлу %s змінено у версії 4.0. Ви можете скопіювати його з %s%s або "
-"використати цей файл як приклад для написання."
 
 msgid "DialogTitle|Copy"
 msgstr "DialogTitle|Копіювання"
@@ -2941,8 +2907,8 @@ msgid "Con&tinue"
 msgstr "П&родовжити"
 
 #, c-format
-msgid "%d:%02d.%02d"
-msgstr "%d:%02d.%02d"
+msgid "%d:%02d:%02d"
+msgstr ""
 
 #, c-format
 msgid "ETA %s"
@@ -3533,9 +3499,6 @@ msgstr "Власник:     %s/%s"
 #, c-format
 msgid "Links:      %d"
 msgstr "Посилань: %d"
-
-msgid "Attributes: not supported"
-msgstr "Атрибути: не підтримуються"
 
 #, c-format
 msgid "Attributes: %s"
@@ -4170,9 +4133,8 @@ msgstr ""
 "Виявлено неочікуваний кінець файлу\n"
 "%s"
 
-#, fuzzy
 msgid "Inconsistent archive"
-msgstr "Виявлено неузгоджений архів tar"
+msgstr "Неузгоджений архів"
 
 #, c-format
 msgid ""
@@ -4192,66 +4154,24 @@ msgstr ""
 "Віртуальна файлова система EXTFS:\n"
 "%s"
 
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong file name"
+msgstr ""
+
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong archive name"
+msgstr ""
+
+msgid ""
+"EXTFS virtual file system:\n"
+"cannot build command"
+msgstr ""
+
 #, c-format
 msgid "Warning: cannot open %s directory\n"
 msgstr "Попередження: не вдалося відкрити каталог %s\n"
-
-#, c-format
-msgid "fish: Disconnecting from %s"
-msgstr "fish: триває від’єднання від %s"
-
-msgid "fish: Waiting for initial line..."
-msgstr "fish: очікується початковий рядок…"
-
-msgid "Sorry, we cannot do password authenticated connections for now."
-msgstr "Зараз немає змоги створювати з’єднання, авторизовані паролем."
-
-#, c-format
-msgid "fish: Password is required for %s"
-msgstr "fish: вимагається пароль для %s"
-
-msgid "fish: Sending password..."
-msgstr "fish: триває надсилання пароля…"
-
-msgid "fish: Sending initial line..."
-msgstr "fish: триває надсилання початкового рядка…"
-
-msgid "fish: Handshaking version..."
-msgstr "fish: тривають переговори про версію…"
-
-msgid "fish: Getting host info..."
-msgstr "fish: триває отримання відомостей про вузол…"
-
-#, c-format
-msgid "fish: Reading directory %s..."
-msgstr "fish: триває читання каталога %s…"
-
-#, c-format
-msgid "%s: done."
-msgstr "%s: завершено."
-
-#, c-format
-msgid "%s: failure"
-msgstr "%s: сталася помилка"
-
-#, c-format
-msgid "fish: store %s: sending command..."
-msgstr "fish: запис %s: триває надсилання команди…"
-
-msgid "fish: Local read failed, sending zeros"
-msgstr "fish: сталася помилка локального читання, надсилаються нулі"
-
-msgid "fish: storing file"
-msgstr "fish: триває зберігання файлу"
-
-msgid "Aborting transfer..."
-msgstr "Триває переривання перенесення…"
-
-msgid "Error reported after abort."
-msgstr "Сталася помилка після переривання."
-
-msgid "Aborted transfer would be successful."
-msgstr "Перерване перенесення могло завершитися успішно."
 
 #, c-format
 msgid "ftpfs: Disconnecting from %s"
@@ -4362,6 +4282,14 @@ msgstr "(спочатку chdir)"
 
 msgid "ftpfs: failed; nowhere to fallback to"
 msgstr "ftpfs: сталася помилка; нікуди перейти на аварійний режим"
+
+#, c-format
+msgid "%s: failure"
+msgstr "%s: сталася помилка"
+
+#, c-format
+msgid "%s: done."
+msgstr "%s: завершено."
 
 msgid "ftpfs: storing file"
 msgstr "ftpfs: триває зберігання файлу"
@@ -4523,12 +4451,50 @@ msgid "sftp: Listing done."
 msgstr "sftp: Створення списку завершено."
 
 #, c-format
-msgid ""
-"Cannot open tar archive\n"
-"%s"
+msgid "shell: Disconnecting from %s"
 msgstr ""
-"Не вдалося відкрити архів tar\n"
-"%s"
+
+msgid "shell: Waiting for initial line..."
+msgstr ""
+
+msgid "Sorry, we cannot do password authenticated connections for now."
+msgstr "Зараз немає змоги створювати з’єднання, авторизовані паролем."
+
+#, c-format
+msgid "shell: Password is required for %s"
+msgstr ""
+
+msgid "shell: Sending password..."
+msgstr ""
+
+msgid "shell: Sending initial line..."
+msgstr ""
+
+msgid "shell: Getting host info..."
+msgstr ""
+
+#, c-format
+msgid "shell: Reading directory %s..."
+msgstr ""
+
+#, c-format
+msgid "shell: store %s: sending command..."
+msgstr ""
+
+msgid "shell: Local read failed, sending zeros"
+msgstr ""
+
+msgid "shell: storing file"
+msgstr ""
+
+msgid "Aborting transfer..."
+msgstr "Триває переривання перенесення…"
+
+msgid "Error reported after abort."
+msgstr "Сталася помилка після переривання."
+
+msgid "Aborted transfer would be successful."
+msgstr "Перерване перенесення могло завершитися успішно."
 
 msgid "Inconsistent tar archive"
 msgstr "Виявлено неузгоджений архів tar"
@@ -4538,11 +4504,20 @@ msgstr "Виявлено неочікуваний кінець архівног�
 
 #, c-format
 msgid ""
-"%s\n"
-"doesn't look like a tar archive."
+"Cannot open tar archive\n"
+"%s"
 msgstr ""
-"Файл %s\n"
-"не схожий на архів tar."
+"Не вдалося відкрити архів tar\n"
+"%s"
+
+#, c-format
+msgid ""
+"%s\n"
+"doesn't look like a tar archive"
+msgstr ""
+
+msgid "tar: mc_lseek not stopped at a record boundary"
+msgstr ""
 
 msgid "undelfs: error"
 msgstr "undelfs: сталася помилка"

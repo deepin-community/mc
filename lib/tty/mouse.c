@@ -1,7 +1,7 @@
 /*
    Mouse managing
 
-   Copyright (C) 1994-2022
+   Copyright (C) 1994-2024
    Free Software Foundation, Inc.
 
    Written by:

@@ -2,7 +2,7 @@
    Skins engine.
    Set of hardcoded skins
 
-   Copyright (C) 2009-2022
+   Copyright (C) 2009-2024
    Free Software Foundation, Inc.
 
    Written by:

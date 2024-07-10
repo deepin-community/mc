@@ -2,7 +2,7 @@
 
 /* Background support.
 
-   Copyright (C) 1996-2022
+   Copyright (C) 1996-2024
    Free Software Foundation, Inc.
 
    Written by:
@@ -68,6 +68,10 @@ enum ReturnType
     Return_Integer
 };
 
+/*** forward declarations (file scope functions) *************************************************/
+
+static int background_attention (int fd, void *closure);
+
 /*** file scope variables ************************************************************************/
 
 /* File descriptor for talking to our parent */
@@ -78,8 +82,7 @@ static int from_parent_fd;
 
 TaskList *task_list = NULL;
 
-static int background_attention (int fd, void *closure);
-
+/* --------------------------------------------------------------------------------------------- */
 /*** file scope functions ************************************************************************/
 /* --------------------------------------------------------------------------------------------- */
 
@@ -550,7 +553,10 @@ do_background (file_op_context_t * ctx, char *info)
     {
         int nullfd;
 
+        (void) close (comm[0]);
         parent_fd = comm[1];
+
+        (void) close (back_comm[1]);
         from_parent_fd = back_comm[0];
 
         mc_global.we_are_background = TRUE;
@@ -577,6 +583,8 @@ do_background (file_op_context_t * ctx, char *info)
     }
     else
     {
+        (void) close (comm[1]);
+        (void) close (back_comm[0]);
         ctx->pid = pid;
         register_task_running (ctx, pid, comm[0], back_comm[1], info);
         return 1;

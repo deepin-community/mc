@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the mc package.
 #
 # Translators:
-# András Tőrös <toros.andras04@gmail.com>, 2020
+# 6bdcf737f9bcb6037ecba892a70fb951_e9eeb40 <b76b5e2faba6aa74d4498ee4c87ab010_661337>, 2020
 # Mátyás Demeter <mathias.demeter@gmail.com>, 2014
 # Rezső Páder <rezso@rezso.net>, 2012-2017,2019
 # Slava Zanko <slavazanko@gmail.com>, 2011
@@ -12,10 +12,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Midnight Commander\n"
 "Report-Msgid-Bugs-To: https://www.midnight-commander.org/\n"
-"POT-Creation-Date: 2023-01-21 18:03+0100\n"
+"POT-Creation-Date: 2024-01-27 09:33+0100\n"
 "PO-Revision-Date: 2010-12-29 10:19+0000\n"
-"Last-Translator: András Tőrös <toros.andras04@gmail.com>, 2020\n"
-"Language-Team: Hungarian (http://www.transifex.com/mc/mc/language/hu/)\n"
+"Last-Translator: 6bdcf737f9bcb6037ecba892a70fb951_e9eeb40 "
+"<b76b5e2faba6aa74d4498ee4c87ab010_661337>, 2020\n"
+"Language-Team: Hungarian (http://app.transifex.com/mc/mc/language/hu/)\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -722,30 +723,13 @@ msgid ""
 "                 errdhotfocus\n"
 "   Menus:        menunormal, menuhot, menusel, menuhotsel, menuinactive\n"
 "   Popup menus:  pmenunormal, pmenusel, pmenutitle\n"
-"   Editor:       editnormal, editbold, editmarked, editwhitespace,\n"
+"   Editor:       editnormal, editbold, editmarked, editwhitespace, "
+"editnonprintable,\n"
 "                 editlinestate, editbg, editframe, editframeactive\n"
 "                 editframedrag\n"
 "   Viewer:       viewnormal,viewbold, viewunderline, viewselected\n"
 "   Help:         helpnormal, helpitalic, helpbold, helplink, helpslink\n"
 msgstr ""
-"--colors KEYWORD={FORE},{BACK},{ATTR}:KEYWORD2=...\n"
-"\n"
-"{FORE}, {BACK} és {ATTR} elhagyható, akkor az alapértelmezett lesz "
-"használva\n"
-" Keywords:\n"
-"   Általános:       errors, disabled, reverse, gauge, header\n"
-"                 input, inputmark, inputunchanged, commandlinemark\n"
-"                 bbarhotkey, bbarbutton, statusbar\n"
-"   Fájl megjelenítés: normal, selected, marked, markselect\n"
-"   Dialógus dobozok: dnormal, dfocus, dhotnormal, dhotfocus, errdhotnormal,\n"
-"                 errdhotfocus\n"
-"   Menük:        menunormal, menuhot, menusel, menuhotsel, menuinactive\n"
-"   Popup menük:  pmenunormal, pmenusel, pmenutitle\n"
-"   Szerkesztő:       editnormal, editbold, editmarked, editwhitespace,\n"
-"                 editlinestate, editbg, editframe, editframeactive\n"
-"                 editframedrag\n"
-"   Megjelenítő:       viewnormal,viewbold, viewunderline, viewselected\n"
-"   Súgó:         helpnormal, helpitalic, helpbold, helplink, helpslink\n"
 
 #. TRANSLATORS: don't translate color names and attributes
 msgid ""
@@ -811,8 +795,8 @@ msgstr "Argumentum feldolgozási hiba!"
 msgid "No arguments given to the viewer."
 msgstr "Hiányzó paraméterek a nézethez."
 
-msgid "Two files are required to envoke the diffviewer."
-msgstr "Két fájl kell a diff-nézet indításához."
+msgid "Two files are required to invoke the diffviewer."
+msgstr ""
 
 msgid "Background protocol error"
 msgstr "Háttérprotokoll-hiba"
@@ -1612,7 +1596,7 @@ msgstr ""
 "Felhasználóbarát szövegszerkesztő\n"
 "a Midnight Commander-hez készítve"
 
-msgid "Copyright (C) 1996-2022 the Free Software Foundation"
+msgid "Copyright (C) 1996-2024 the Free Software Foundation"
 msgstr ""
 
 msgid "About"
@@ -2145,11 +2129,10 @@ msgstr "Háttérfolyamatok"
 
 #, c-format
 msgid ""
-"Cannot chdir to \"%s\"\n"
+"Cannot change directory to\n"
+"%s\n"
 "%s"
 msgstr ""
-"Nem sikerült belépni a(z) \"%s\" könyvtárba.\n"
-"%s"
 
 msgid "Secure deletion"
 msgstr ""
@@ -2242,9 +2225,6 @@ msgstr ""
 msgid ""
 "Cannot chattr \"%s\"\n"
 "%s"
-msgstr ""
-
-msgid "Cannot change attributes on non-local filesystems"
 msgstr ""
 
 #, c-format
@@ -2346,9 +2326,6 @@ msgstr "Gépnév (részletek: F1 billentyű):"
 msgid "Files tagged, want to cd?"
 msgstr "A fájlkijelölések elvesznek, folytatja?"
 
-msgid "Cannot change directory"
-msgstr "Nem sikerült könyvtárt váltani"
-
 #, c-format
 msgid "Link %s to:"
 msgstr "\"%s\" linkelése ide:"
@@ -2363,10 +2340,6 @@ msgstr "link: %s"
 #, c-format
 msgid "symlink: %s"
 msgstr "szimbolikus link: %s"
-
-#, c-format
-msgid "Cannot chdir to \"%s\""
-msgstr "Nem sikerült belépni a(z) \"%s\" könyvtárba"
 
 msgid "View file"
 msgstr "Fájl megjelenítése"
@@ -2503,24 +2476,22 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid " %s%s file error"
-msgstr " %s%s fájlhiba"
-
-#, c-format
 msgid ""
-"The format of the %s%s file has changed with version 4.0. It seems that the "
-"installation has failed. Please fetch a fresh copy from the Midnight "
-"Commander package."
+"The format of the\n"
+"%s%s\n"
+"file has changed with version 4.0.\n"
+"It seems that the installation has failed.\n"
+"Please fetch a fresh copy from the Midnight Commander package."
 msgstr ""
 
 #, c-format
-msgid "%s file error"
-msgstr "%s fájl hiba"
-
-#, c-format
 msgid ""
-"The format of the %s file has changed with version 4.0. You may either want "
-"to copy it from %s%s or use that file as an example of how to write it."
+"The format of the\n"
+"%s\n"
+"file has changed with version 4.0.\n"
+"You may either want to copy it from\n"
+"%s%s\n"
+"or use that file as an example of how to write it."
 msgstr ""
 
 msgid "DialogTitle|Copy"
@@ -2897,8 +2868,8 @@ msgid "Con&tinue"
 msgstr "&Folytatás"
 
 #, c-format
-msgid "%d:%02d.%02d"
-msgstr "%d:%02d:%02d"
+msgid "%d:%02d:%02d"
+msgstr ""
 
 #, c-format
 msgid "ETA %s"
@@ -3483,9 +3454,6 @@ msgstr "Tulajdonos: %s/%s"
 #, c-format
 msgid "Links:      %d"
 msgstr "Linkek száma: %d"
-
-msgid "Attributes: not supported"
-msgstr ""
 
 #, c-format
 msgid "Attributes: %s"
@@ -4112,9 +4080,8 @@ msgstr ""
 "Váratlan fájlvég:\n"
 "%s"
 
-#, fuzzy
 msgid "Inconsistent archive"
-msgstr "Inkonzisztens tar-archívum."
+msgstr ""
 
 #, c-format
 msgid ""
@@ -4129,66 +4096,24 @@ msgid ""
 "%s"
 msgstr ""
 
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong file name"
+msgstr ""
+
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong archive name"
+msgstr ""
+
+msgid ""
+"EXTFS virtual file system:\n"
+"cannot build command"
+msgstr ""
+
 #, c-format
 msgid "Warning: cannot open %s directory\n"
 msgstr "Figyelem: A(z) %s könyvtár nem megnyitható\n"
-
-#, c-format
-msgid "fish: Disconnecting from %s"
-msgstr "Fish: lekapcsolódás a kiszolgálóról: %s"
-
-msgid "fish: Waiting for initial line..."
-msgstr "Fish: várakozás kezdősorra..."
-
-msgid "Sorry, we cannot do password authenticated connections for now."
-msgstr "Jelszavas azonosítás egyelőre nem lehetséges."
-
-#, c-format
-msgid "fish: Password is required for %s"
-msgstr "Fish: Jelszó kell %s azonosításához"
-
-msgid "fish: Sending password..."
-msgstr "Fish: jelszó küldése..."
-
-msgid "fish: Sending initial line..."
-msgstr "Fish: kezdősor küldése..."
-
-msgid "fish: Handshaking version..."
-msgstr "Fish: verzióegyeztetés..."
-
-msgid "fish: Getting host info..."
-msgstr "Fish: Gép info lekérdezés..."
-
-#, c-format
-msgid "fish: Reading directory %s..."
-msgstr "Fish: könyvtár olvasása: %s..."
-
-#, c-format
-msgid "%s: done."
-msgstr "%s: kész"
-
-#, c-format
-msgid "%s: failure"
-msgstr "%s: hiba"
-
-#, c-format
-msgid "fish: store %s: sending command..."
-msgstr "Fish: \"%s\" tárolása: parancs küldése..."
-
-msgid "fish: Local read failed, sending zeros"
-msgstr "Fish: nem sikerült a helyi olvasás; nullák küldése..."
-
-msgid "fish: storing file"
-msgstr "fish: fájl tárolása"
-
-msgid "Aborting transfer..."
-msgstr "Átvitel megszakítása..."
-
-msgid "Error reported after abort."
-msgstr "Megszakítás után hibajelzés érkezett."
-
-msgid "Aborted transfer would be successful."
-msgstr "Átvitel megszakítva; hibajelzés nem érkezett."
 
 #, c-format
 msgid "ftpfs: Disconnecting from %s"
@@ -4299,6 +4224,14 @@ msgstr "(először könyvtárváltás végzendő)"
 
 msgid "ftpfs: failed; nowhere to fallback to"
 msgstr "Ftpfs: hiba; minden lehetőség kimerítve"
+
+#, c-format
+msgid "%s: failure"
+msgstr "%s: hiba"
+
+#, c-format
+msgid "%s: done."
+msgstr "%s: kész"
 
 msgid "ftpfs: storing file"
 msgstr "ftpfs: fájl tárolása"
@@ -4440,12 +4373,50 @@ msgid "sftp: Listing done."
 msgstr "sftp: A listázás kész."
 
 #, c-format
-msgid ""
-"Cannot open tar archive\n"
-"%s"
+msgid "shell: Disconnecting from %s"
 msgstr ""
-"A tar-archívum nem nyitható meg\n"
-"%s"
+
+msgid "shell: Waiting for initial line..."
+msgstr ""
+
+msgid "Sorry, we cannot do password authenticated connections for now."
+msgstr "Jelszavas azonosítás egyelőre nem lehetséges."
+
+#, c-format
+msgid "shell: Password is required for %s"
+msgstr ""
+
+msgid "shell: Sending password..."
+msgstr ""
+
+msgid "shell: Sending initial line..."
+msgstr ""
+
+msgid "shell: Getting host info..."
+msgstr ""
+
+#, c-format
+msgid "shell: Reading directory %s..."
+msgstr ""
+
+#, c-format
+msgid "shell: store %s: sending command..."
+msgstr ""
+
+msgid "shell: Local read failed, sending zeros"
+msgstr ""
+
+msgid "shell: storing file"
+msgstr ""
+
+msgid "Aborting transfer..."
+msgstr "Átvitel megszakítása..."
+
+msgid "Error reported after abort."
+msgstr "Megszakítás után hibajelzés érkezett."
+
+msgid "Aborted transfer would be successful."
+msgstr "Átvitel megszakítva; hibajelzés nem érkezett."
 
 msgid "Inconsistent tar archive"
 msgstr "Inkonzisztens tar-archívum."
@@ -4455,11 +4426,20 @@ msgstr "Váratlan fájlvég az archívumfájlban"
 
 #, c-format
 msgid ""
-"%s\n"
-"doesn't look like a tar archive."
+"Cannot open tar archive\n"
+"%s"
 msgstr ""
+"A tar-archívum nem nyitható meg\n"
+"%s"
+
+#, c-format
+msgid ""
 "%s\n"
-"valószínűleg nem tar-archívum."
+"doesn't look like a tar archive"
+msgstr ""
+
+msgid "tar: mc_lseek not stopped at a record boundary"
+msgstr ""
 
 msgid "undelfs: error"
 msgstr "undelfs: hiba"

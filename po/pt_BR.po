@@ -5,7 +5,7 @@
 # Translators:
 # Enrico Nicoletto <enrico.BR@gmx.co.uk>, 2013
 # Heitor Adão Júnior <heitoradao@gmail.com>, 2017
-# marcelo cripe <marcelocripe@gmail.com>, 2022
+# marcelo cripe <marcelocripe@gmail.com>, 2022-2024
 # Mauro Hemerly Gazzani <mauro.hemerly@gmail.com>, 2017
 # Rafael Fontenelle <rffontenelle@gmail.com>, 2012
 # Slava Zanko <slavazanko@gmail.com>, 2011
@@ -14,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Midnight Commander\n"
 "Report-Msgid-Bugs-To: https://www.midnight-commander.org/\n"
-"POT-Creation-Date: 2023-01-21 18:03+0100\n"
+"POT-Creation-Date: 2024-01-27 09:33+0100\n"
 "PO-Revision-Date: 2010-12-29 10:19+0000\n"
-"Last-Translator: marcelo cripe <marcelocripe@gmail.com>, 2022\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/mc/mc/language/"
+"Last-Translator: marcelo cripe <marcelocripe@gmail.com>, 2022-2024\n"
+"Language-Team: Portuguese (Brazil) (http://app.transifex.com/mc/mc/language/"
 "pt_BR/)\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -755,7 +755,8 @@ msgid ""
 "                 errdhotfocus\n"
 "   Menus:        menunormal, menuhot, menusel, menuhotsel, menuinactive\n"
 "   Popup menus:  pmenunormal, pmenusel, pmenutitle\n"
-"   Editor:       editnormal, editbold, editmarked, editwhitespace,\n"
+"   Editor:       editnormal, editbold, editmarked, editwhitespace, "
+"editnonprintable,\n"
 "                 editlinestate, editbg, editframe, editframeactive\n"
 "                 editframedrag\n"
 "   Viewer:       viewnormal,viewbold, viewunderline, viewselected\n"
@@ -763,22 +764,26 @@ msgid ""
 msgstr ""
 "--colors KEYWORD={FORE},{BACK},{ATTR}:KEYWORD2=...\n"
 "\n"
-"{FORE}, {BACK} e {ATTR} podem ser omitidos e o padrão será utilizado\n"
+"{FORE}, {BACK} e {ATTR} pode ser omitido e o padrão será utilizado\n"
 "\n"
-" Palavras-chave:\n"
-"   Global:       errors, disabled, reverse, gauge, header\n"
-"                 input, inputmark, inputunchanged, commandlinemark\n"
-"                 bbarhotkey, bbarbutton, statusbar\n"
-"   Exibição de arquivo: normal, selected, marked, markselect\n"
+" Keywords (Palavras-chave):\n"
+"   Global:       erros, desativado, reverso, medidor, entrada do\n"
+"                 cabeçalho, marca de entrada, entrada inalterada,\n"
+"                 tecla de atalho da marca da linha de comando da\n"
+"                 barra, botão da barra, estado da barra\n"
+"\n"
+"\n"
+"   Exibição do arquivo: normal, selecionado, marcado, marca da seleção\n"
 "   Caixas de diálogo: dnormal, dfocus, dhotnormal, dhotfocus, "
 "errdhotnormal,\n"
 "                 errdhotfocus\n"
 "   Menus:        menunormal, menuhot, menusel, menuhotsel, menuinactive\n"
-"   Caixas de diálogo dos menus:  pmenunormal, pmenusel, pmenutitle\n"
-"   Editor:       editnormal, editbold, editmarked, editwhitespace,\n"
+"   Menus de contexto  pmenunormal, pmenusel, pmenutitle\n"
+"   Editor:       editnormal, editbold, editmarked, editwhitespace, "
+"editnonprintable,\n"
 "                 editlinestate, editbg, editframe, editframeactive\n"
 "                 editframedrag\n"
-"   Visualizador:       viewnormal,viewbold, viewunderline, viewselected\n"
+"   Visualização:       viewnormal,viewbold, viewunderline, viewselected\n"
 "   Ajuda:         helpnormal, helpitalic, helpbold, helplink, helpslink\n"
 
 #. TRANSLATORS: don't translate color names and attributes
@@ -848,10 +853,10 @@ msgstr "Ocorreu um erro na análise dos argumentos!"
 msgid "No arguments given to the viewer."
 msgstr "Nenhum argumento foi passado para o visualizador"
 
-msgid "Two files are required to envoke the diffviewer."
+msgid "Two files are required to invoke the diffviewer."
 msgstr ""
 "Dois arquivos são necessários para invocar o visualizador de diferenças "
-"diffviewer."
+"'diffviewer'."
 
 msgid "Background protocol error"
 msgstr "Ocorreu um erro no protocolo que está sendo executado em segundo plano"
@@ -1658,8 +1663,8 @@ msgstr ""
 "Um editor de texto amigável\n"
 "escrito para o Midnight Commander."
 
-msgid "Copyright (C) 1996-2022 the Free Software Foundation"
-msgstr "Direitos de Autor (c) 1996-2022 a Fundação Free Software Foundation"
+msgid "Copyright (C) 1996-2024 the Free Software Foundation"
+msgstr "Direitos de Autor (C) 1996-2024 a Fundação ‘Free Software Foundation’"
 
 msgid "About"
 msgstr "Sobre"
@@ -2199,10 +2204,13 @@ msgstr "Trabalhos em segundo plano"
 
 #, c-format
 msgid ""
-"Cannot chdir to \"%s\"\n"
+"Cannot change directory to\n"
+"%s\n"
 "%s"
 msgstr ""
-"Não é possível o chdir para \"%s\"\n"
+"Não foi possível alterar o diretório de\n"
+"%s\n"
+"para\n"
 "%s"
 
 msgid "Secure deletion"
@@ -2299,11 +2307,6 @@ msgid ""
 msgstr ""
 "Não foi possível o comando chattr \"%s\"\n"
 "%s"
-
-msgid "Cannot change attributes on non-local filesystems"
-msgstr ""
-"Não é possível alterar os atributos nos sistemas de arquivos que não são "
-"locais"
 
 #, c-format
 msgid ""
@@ -2407,9 +2410,6 @@ msgstr ""
 msgid "Files tagged, want to cd?"
 msgstr "Os arquivos estão selecionados. Você quer alterar a localização?"
 
-msgid "Cannot change directory"
-msgstr "Não é possível alterar o diretório"
-
 #, c-format
 msgid "Link %s to:"
 msgstr "Vínculo %s para:"
@@ -2424,10 +2424,6 @@ msgstr "Vínculo: %s"
 #, c-format
 msgid "symlink: %s"
 msgstr "Vínculo simbólico: %s"
-
-#, c-format
-msgid "Cannot chdir to \"%s\""
-msgstr "Não foi possível executar o comando chdir para \"%s\""
 
 msgid "View file"
 msgstr "Visualizar o arquivo"
@@ -2571,30 +2567,34 @@ msgstr ""
 "antigo para o novo arquivo de configurações."
 
 #, c-format
-msgid " %s%s file error"
-msgstr "Ocorreu um erro no arquivo %s%s "
+msgid ""
+"The format of the\n"
+"%s%s\n"
+"file has changed with version 4.0.\n"
+"It seems that the installation has failed.\n"
+"Please fetch a fresh copy from the Midnight Commander package."
+msgstr ""
+"O formato do arquivo\n"
+"%s%s\n"
+"mudou com a versão 4.0.\n"
+"Ao que parece, a instalação falhou.\n"
+"Por favor, obtenha uma nova cópia do pacote Midnight Commander."
 
 #, c-format
 msgid ""
-"The format of the %s%s file has changed with version 4.0. It seems that the "
-"installation has failed. Please fetch a fresh copy from the Midnight "
-"Commander package."
+"The format of the\n"
+"%s\n"
+"file has changed with version 4.0.\n"
+"You may either want to copy it from\n"
+"%s%s\n"
+"or use that file as an example of how to write it."
 msgstr ""
-"O formato do arquivo %s %s mudou com a versão 4.0. Ao que parece a "
-"instalação falhou. Por favor, obtenha uma cópia do novo pacote do Midnight "
-"Commander."
-
-#, c-format
-msgid "%s file error"
-msgstr "Ocorreu um erro no arquivo %s"
-
-#, c-format
-msgid ""
-"The format of the %s file has changed with version 4.0. You may either want "
-"to copy it from %s%s or use that file as an example of how to write it."
-msgstr ""
-"O formato do arquivo %s mudou com a versão 4.0. Você pode querer copiá-lo de "
-"%s %s ou utilizar este arquivo como um exemplo de como escrevê-lo."
+"O formato do arquivo\n"
+"%s\n"
+"mudou com a versão 4.0.\n"
+"Você pode querer copiá-lo de\n"
+"%s%s\n"
+"ou utilize este arquivo como um exemplo de como escrevê-lo."
 
 msgid "DialogTitle|Copy"
 msgstr "TítuloDiálogo|Copiar"
@@ -2979,8 +2979,8 @@ msgid "Con&tinue"
 msgstr "Con&tinuar"
 
 #, c-format
-msgid "%d:%02d.%02d"
-msgstr "%d:%02d.%02d"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
 
 #, c-format
 msgid "ETA %s"
@@ -3571,9 +3571,6 @@ msgstr "Proprietário:      %s/%s"
 #, c-format
 msgid "Links:      %d"
 msgstr "Vínculos:      %d"
-
-msgid "Attributes: not supported"
-msgstr "Atributos: não suportados"
 
 #, c-format
 msgid "Attributes: %s"
@@ -4218,9 +4215,8 @@ msgstr ""
 "Ocorreu o fim inesperado do arquivo\n"
 "%s"
 
-#, fuzzy
 msgid "Inconsistent archive"
-msgstr "O arquivo tar não é consistente"
+msgstr "O arquivo é inconsistente"
 
 #, c-format
 msgid ""
@@ -4240,69 +4236,32 @@ msgstr ""
 "Sistema de arquivos virtual EXTFS:\n"
 "%s"
 
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong file name"
+msgstr ""
+"Sistema de arquivos virtual EXTFS:\n"
+"O nome do arquivo não está correto"
+
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong archive name"
+msgstr ""
+"Sistema de arquivos virtuais EXTFS:\n"
+"O nome do arquivo está errado"
+
+msgid ""
+"EXTFS virtual file system:\n"
+"cannot build command"
+msgstr ""
+"Sistema de arquivos virtuais EXTFS:\n"
+"Não foi possível construir o comando"
+
 #, c-format
 msgid "Warning: cannot open %s directory\n"
 msgstr ""
 "Aviso:\n"
 "Não foi possível abrir o diretório %s\n"
-
-#, c-format
-msgid "fish: Disconnecting from %s"
-msgstr "O fish foi desconectado de %s"
-
-msgid "fish: Waiting for initial line..."
-msgstr "O fish está aguardando a linha inicial..."
-
-msgid "Sorry, we cannot do password authenticated connections for now."
-msgstr ""
-"Desculpe-me, não é possível fazer a autenticação por senha neste momento."
-
-#, c-format
-msgid "fish: Password is required for %s"
-msgstr "O fish necessita da senha para %s"
-
-msgid "fish: Sending password..."
-msgstr "O fish está enviando a senha..."
-
-msgid "fish: Sending initial line..."
-msgstr "O fish está enviando a linha inicial..."
-
-msgid "fish: Handshaking version..."
-msgstr "A versão de protocolo(handshacking) do fish..."
-
-msgid "fish: Getting host info..."
-msgstr "O fish está obtendo as informações do hospedeiro..."
-
-#, c-format
-msgid "fish: Reading directory %s..."
-msgstr "O fish está lendo o diretório %s..."
-
-#, c-format
-msgid "%s: done."
-msgstr "%s: foi concluído com sucesso."
-
-#, c-format
-msgid "%s: failure"
-msgstr "%s: falhou durante o processo"
-
-#, c-format
-msgid "fish: store %s: sending command..."
-msgstr "O fish armazenou %s e está enviando o comando..."
-
-msgid "fish: Local read failed, sending zeros"
-msgstr "Ocorreu um erro no fish durante a leitura local e será enviado zeros"
-
-msgid "fish: storing file"
-msgstr "O fish está armazenando o(s) arquivo(s)"
-
-msgid "Aborting transfer..."
-msgstr "Interrompendo a transferência..."
-
-msgid "Error reported after abort."
-msgstr "O erro foi reportado depois será finalizado."
-
-msgid "Aborted transfer would be successful."
-msgstr "A transferência foi interrompida, mas poderia ser bem sucedida."
 
 #, c-format
 msgid "ftpfs: Disconnecting from %s"
@@ -4417,6 +4376,14 @@ msgstr "(primeiro o chdir)"
 
 msgid "ftpfs: failed; nowhere to fallback to"
 msgstr "Ocorreu uma falha no ftpfs e não é possível voltar"
+
+#, c-format
+msgid "%s: failure"
+msgstr "%s: falhou durante o processo"
+
+#, c-format
+msgid "%s: done."
+msgstr "%s: foi concluído com sucesso."
 
 msgid "ftpfs: storing file"
 msgstr "O ftpfs está armazenando os arquivos"
@@ -4588,12 +4555,51 @@ msgid "sftp: Listing done."
 msgstr "A listagem do sftp foi concluída com sucesso."
 
 #, c-format
-msgid ""
-"Cannot open tar archive\n"
-"%s"
+msgid "shell: Disconnecting from %s"
+msgstr "Shell: Desconectando de %s"
+
+msgid "shell: Waiting for initial line..."
+msgstr "Shell: Aguardando a linha inicial..."
+
+msgid "Sorry, we cannot do password authenticated connections for now."
 msgstr ""
-"Não foi possível abrir arquivo tar\n"
-"%s"
+"Desculpe-me, não é possível fazer a autenticação por senha neste momento."
+
+#, c-format
+msgid "shell: Password is required for %s"
+msgstr "Shell: A senha é necessária para %s"
+
+msgid "shell: Sending password..."
+msgstr "Shell: Enviando a senha..."
+
+msgid "shell: Sending initial line..."
+msgstr "Shell: Enviando a linha inicial..."
+
+msgid "shell: Getting host info..."
+msgstr "Shell: Obtendo as informações do hospedeiro..."
+
+#, c-format
+msgid "shell: Reading directory %s..."
+msgstr "Shell: Lendo o diretório %s..."
+
+#, c-format
+msgid "shell: store %s: sending command..."
+msgstr "Shell: Armazenar %s: Enviando o comando..."
+
+msgid "shell: Local read failed, sending zeros"
+msgstr "Shell: Ocorreu uma falha na leitura local, enviando zeros"
+
+msgid "shell: storing file"
+msgstr "Shell: Armazenando o arquivo"
+
+msgid "Aborting transfer..."
+msgstr "Interrompendo a transferência..."
+
+msgid "Error reported after abort."
+msgstr "O erro foi reportado depois será finalizado."
+
+msgid "Aborted transfer would be successful."
+msgstr "A transferência foi interrompida, mas poderia ser bem sucedida."
 
 msgid "Inconsistent tar archive"
 msgstr "O arquivo tar não é consistente"
@@ -4603,11 +4609,22 @@ msgstr "Ocorreu o fim inesperado do arquivo EOF (final do arquivo)"
 
 #, c-format
 msgid ""
+"Cannot open tar archive\n"
+"%s"
+msgstr ""
+"Não foi possível abrir arquivo tar\n"
+"%s"
+
+#, c-format
+msgid ""
 "%s\n"
-"doesn't look like a tar archive."
+"doesn't look like a tar archive"
 msgstr ""
 "%s\n"
-"não parece ser um arquivo tar."
+"não parece ser um arquivo do tipo .tar"
+
+msgid "tar: mc_lseek not stopped at a record boundary"
+msgstr "tar: o mc_lseek não parou no limite do registro"
 
 msgid "undelfs: error"
 msgstr "Ocorreu um erro no undelfs"

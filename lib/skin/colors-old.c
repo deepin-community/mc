@@ -2,7 +2,7 @@
    Skins engine.
    Work with colors - backward compatibility
 
-   Copyright (C) 2009-2022
+   Copyright (C) 2009-2024
    Free Software Foundation, Inc.
 
    Written by:
@@ -39,6 +39,8 @@
 
 /*** file scope macro definitions ****************************************************************/
 
+/*** forward declarations (file scope functions) *************************************************/
+
 /*** file scope type declarations ****************************************************************/
 
 typedef struct mc_skin_colors_old_struct
@@ -67,6 +69,7 @@ static const mc_skin_colors_old_t old_colors[] = {
     {"editframedrag", "editor", "editframedrag"},
     {"editlinestate", "editor", "editlinestate"},
     {"editmarked", "editor", "editmarked"},
+    {"editnonprintable", "editor", "editnonprintable"},
     {"editnormal", "editor", "_default_"},
     {"editwhitespace", "editor", "editwhitespace"},
     {"errdhotfocus", "error", "errdhotfocus"},
@@ -104,7 +107,9 @@ static const mc_skin_colors_old_t old_colors[] = {
 
 static const size_t num_old_colors = G_N_ELEMENTS (old_colors);
 
+/* --------------------------------------------------------------------------------------------- */
 /*** file scope functions ************************************************************************/
+/* --------------------------------------------------------------------------------------------- */
 
 static int
 old_color_comparator (const void *p1, const void *p2)

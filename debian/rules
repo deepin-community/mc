@@ -50,6 +50,13 @@ override_dh_auto_test:
 	## allow test(s) failure
 	-dh_auto_test
 
+execute_before_dh_auto_install:
+## make thin_skins:
+	mkdir -v -p debian/tmp/skins
+	cp misc/skins/modar* debian/tmp/skins/
+	debian/skins/mc_skin2thin.pl debian/tmp/skins
+	$(RM) -rf debian/tmp/skins
+
 override_dh_auto_install:
 	dh_auto_install --max-parallel=1
 

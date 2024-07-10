@@ -2,7 +2,7 @@
    Skins engine.
    Work with line draving chars.
 
-   Copyright (C) 2009-2022
+   Copyright (C) 2009-2024
    Free Software Foundation, Inc.
 
    Written by:
@@ -36,9 +36,13 @@
 
 /*** file scope type declarations ****************************************************************/
 
+/*** forward declarations (file scope functions) *************************************************/
+
 /*** file scope variables ************************************************************************/
 
+/* --------------------------------------------------------------------------------------------- */
 /*** file scope functions ************************************************************************/
+/* --------------------------------------------------------------------------------------------- */
 
 static int
 mc_skin_lines_load_frm (mc_skin_t * mc_skin, const char *name)

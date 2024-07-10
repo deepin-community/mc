@@ -95,6 +95,7 @@ struct vfs_s_inode
     char *localname;            /* Filename of local file, if we have one */
     gint64 timestamp;           /* Subclass specific */
     off_t data_offset;          /* Subclass specific */
+    void *user_data;            /* Subclass specific */
 };
 
 /* Data associated with an open file */
@@ -108,7 +109,7 @@ typedef struct
 } vfs_file_handler_t;
 
 /*
- * One of our subclasses (tar, cpio, fish, ftpfs) with data and methods.
+ * One of our subclasses (tar, cpio, shell, ftpfs) with data and methods.
  * Extends vfs_class.
  */
 struct vfs_s_subclass

@@ -14,10 +14,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Midnight Commander\n"
 "Report-Msgid-Bugs-To: https://www.midnight-commander.org/\n"
-"POT-Creation-Date: 2023-01-21 18:03+0100\n"
+"POT-Creation-Date: 2024-01-27 09:33+0100\n"
 "PO-Revision-Date: 2010-12-29 10:19+0000\n"
 "Last-Translator: Mantas Kriaučiūnas Baltix <mantas@akl.lt>, 2020\n"
-"Language-Team: Lithuanian (http://www.transifex.com/mc/mc/language/lt/)\n"
+"Language-Team: Lithuanian (http://app.transifex.com/mc/mc/language/lt/)\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -734,7 +734,8 @@ msgid ""
 "                 errdhotfocus\n"
 "   Menus:        menunormal, menuhot, menusel, menuhotsel, menuinactive\n"
 "   Popup menus:  pmenunormal, pmenusel, pmenutitle\n"
-"   Editor:       editnormal, editbold, editmarked, editwhitespace,\n"
+"   Editor:       editnormal, editbold, editmarked, editwhitespace, "
+"editnonprintable,\n"
 "                 editlinestate, editbg, editframe, editframeactive\n"
 "                 editframedrag\n"
 "   Viewer:       viewnormal,viewbold, viewunderline, viewselected\n"
@@ -792,8 +793,8 @@ msgstr ""
 msgid "No arguments given to the viewer."
 msgstr ""
 
-msgid "Two files are required to envoke the diffviewer."
-msgstr "Peržiūrai su diff reikalingi du failai."
+msgid "Two files are required to invoke the diffviewer."
+msgstr ""
 
 msgid "Background protocol error"
 msgstr ""
@@ -1589,7 +1590,7 @@ msgstr ""
 "Lengvas vartoti teksto redaktorius\n"
 "sukurtas Midnight Commander aplinkai."
 
-msgid "Copyright (C) 1996-2022 the Free Software Foundation"
+msgid "Copyright (C) 1996-2024 the Free Software Foundation"
 msgstr ""
 
 msgid "About"
@@ -2115,7 +2116,8 @@ msgstr "Foninio režimo užduotys"
 
 #, c-format
 msgid ""
-"Cannot chdir to \"%s\"\n"
+"Cannot change directory to\n"
+"%s\n"
 "%s"
 msgstr ""
 
@@ -2210,9 +2212,6 @@ msgstr ""
 msgid ""
 "Cannot chattr \"%s\"\n"
 "%s"
-msgstr ""
-
-msgid "Cannot change attributes on non-local filesystems"
 msgstr ""
 
 #, c-format
@@ -2314,9 +2313,6 @@ msgstr ""
 msgid "Files tagged, want to cd?"
 msgstr "Failai pažymėti, norite įvykdyti „cd“?"
 
-msgid "Cannot change directory"
-msgstr " Nepavyko pakeisti aplanko "
-
 #, c-format
 msgid "Link %s to:"
 msgstr "Sukurti nuorodą iš „%s“ į:"
@@ -2331,10 +2327,6 @@ msgstr ""
 #, c-format
 msgid "symlink: %s"
 msgstr "simbolinė nuoroda: %s"
-
-#, c-format
-msgid "Cannot chdir to \"%s\""
-msgstr ""
 
 msgid "View file"
 msgstr "Žiūrėti failą"
@@ -2465,24 +2457,22 @@ msgid ""
 msgstr ""
 
 #, c-format
-msgid " %s%s file error"
-msgstr " %s%s failo klaida"
-
-#, c-format
 msgid ""
-"The format of the %s%s file has changed with version 4.0. It seems that the "
-"installation has failed. Please fetch a fresh copy from the Midnight "
-"Commander package."
+"The format of the\n"
+"%s%s\n"
+"file has changed with version 4.0.\n"
+"It seems that the installation has failed.\n"
+"Please fetch a fresh copy from the Midnight Commander package."
 msgstr ""
 
 #, c-format
-msgid "%s file error"
-msgstr "%s failo klaida"
-
-#, c-format
 msgid ""
-"The format of the %s file has changed with version 4.0. You may either want "
-"to copy it from %s%s or use that file as an example of how to write it."
+"The format of the\n"
+"%s\n"
+"file has changed with version 4.0.\n"
+"You may either want to copy it from\n"
+"%s%s\n"
+"or use that file as an example of how to write it."
 msgstr ""
 
 msgid "DialogTitle|Copy"
@@ -2818,7 +2808,7 @@ msgid "Con&tinue"
 msgstr "&Tęsti"
 
 #, c-format
-msgid "%d:%02d.%02d"
+msgid "%d:%02d:%02d"
 msgstr ""
 
 #, c-format
@@ -3408,9 +3398,6 @@ msgstr "Savininkas: %s/%s"
 #, c-format
 msgid "Links:      %d"
 msgstr "Nuorodos: %d"
-
-msgid "Attributes: not supported"
-msgstr ""
 
 #, c-format
 msgid "Attributes: %s"
@@ -4028,9 +4015,8 @@ msgstr ""
 "Netikėta failo pabaiga\n"
 "%s"
 
-#, fuzzy
 msgid "Inconsistent archive"
-msgstr "Nevientisas tar archyvas"
+msgstr ""
 
 #, c-format
 msgid ""
@@ -4045,66 +4031,24 @@ msgid ""
 "%s"
 msgstr ""
 
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong file name"
+msgstr ""
+
+msgid ""
+"EXTFS virtual file system:\n"
+"wrong archive name"
+msgstr ""
+
+msgid ""
+"EXTFS virtual file system:\n"
+"cannot build command"
+msgstr ""
+
 #, c-format
 msgid "Warning: cannot open %s directory\n"
 msgstr "Įspėjimas: nepavyko pereiti į aplanką %s\n"
-
-#, c-format
-msgid "fish: Disconnecting from %s"
-msgstr "fish: atsijungiama nuo %s"
-
-msgid "fish: Waiting for initial line..."
-msgstr "fish: laukiama pradinės eilutės..."
-
-msgid "Sorry, we cannot do password authenticated connections for now."
-msgstr "Šiuo metu slaptažodžių apsaugotų prisijungimų atlikti negalima."
-
-#, c-format
-msgid "fish: Password is required for %s"
-msgstr ""
-
-msgid "fish: Sending password..."
-msgstr "fish: siunčiamas slaptažodis..."
-
-msgid "fish: Sending initial line..."
-msgstr "fish: siunčiama pradinė linija..."
-
-msgid "fish: Handshaking version..."
-msgstr "fish: derinamos versijos..."
-
-msgid "fish: Getting host info..."
-msgstr ""
-
-#, c-format
-msgid "fish: Reading directory %s..."
-msgstr "fish: atveriamas aplankas %s..."
-
-#, c-format
-msgid "%s: done."
-msgstr "%s: atlikta."
-
-#, c-format
-msgid "%s: failure"
-msgstr "%s: nepavyko"
-
-#, c-format
-msgid "fish: store %s: sending command..."
-msgstr "fish: „%s“ siuntimas: siunčiamas slaptažodis..."
-
-msgid "fish: Local read failed, sending zeros"
-msgstr "fish: vietinis skaitymas nepavyko, siunčiami nuliai"
-
-msgid "fish: storing file"
-msgstr ""
-
-msgid "Aborting transfer..."
-msgstr "Nutraukiamas siuntimas..."
-
-msgid "Error reported after abort."
-msgstr "Po nutraukties pranešta klaida."
-
-msgid "Aborted transfer would be successful."
-msgstr "Nutrauktas siuntimas būtų sėkmingas."
 
 #, c-format
 msgid "ftpfs: Disconnecting from %s"
@@ -4215,6 +4159,14 @@ msgstr "(keičiamas katalogas)"
 
 msgid "ftpfs: failed; nowhere to fallback to"
 msgstr "ftpfs: nepavyko; nėra kur grįžti"
+
+#, c-format
+msgid "%s: failure"
+msgstr "%s: nepavyko"
+
+#, c-format
+msgid "%s: done."
+msgstr "%s: atlikta."
 
 msgid "ftpfs: storing file"
 msgstr ""
@@ -4354,12 +4306,50 @@ msgid "sftp: Listing done."
 msgstr ""
 
 #, c-format
-msgid ""
-"Cannot open tar archive\n"
-"%s"
+msgid "shell: Disconnecting from %s"
 msgstr ""
-"Nepavyko atverti tar archyvo\n"
-"%s"
+
+msgid "shell: Waiting for initial line..."
+msgstr ""
+
+msgid "Sorry, we cannot do password authenticated connections for now."
+msgstr "Šiuo metu slaptažodžių apsaugotų prisijungimų atlikti negalima."
+
+#, c-format
+msgid "shell: Password is required for %s"
+msgstr ""
+
+msgid "shell: Sending password..."
+msgstr ""
+
+msgid "shell: Sending initial line..."
+msgstr ""
+
+msgid "shell: Getting host info..."
+msgstr ""
+
+#, c-format
+msgid "shell: Reading directory %s..."
+msgstr ""
+
+#, c-format
+msgid "shell: store %s: sending command..."
+msgstr ""
+
+msgid "shell: Local read failed, sending zeros"
+msgstr ""
+
+msgid "shell: storing file"
+msgstr ""
+
+msgid "Aborting transfer..."
+msgstr "Nutraukiamas siuntimas..."
+
+msgid "Error reported after abort."
+msgstr "Po nutraukties pranešta klaida."
+
+msgid "Aborted transfer would be successful."
+msgstr "Nutrauktas siuntimas būtų sėkmingas."
 
 msgid "Inconsistent tar archive"
 msgstr "Nevientisas tar archyvas"
@@ -4369,8 +4359,19 @@ msgstr "Netikėta archyvo failo pabaiga"
 
 #, c-format
 msgid ""
+"Cannot open tar archive\n"
+"%s"
+msgstr ""
+"Nepavyko atverti tar archyvo\n"
+"%s"
+
+#, c-format
+msgid ""
 "%s\n"
-"doesn't look like a tar archive."
+"doesn't look like a tar archive"
+msgstr ""
+
+msgid "tar: mc_lseek not stopped at a record boundary"
 msgstr ""
 
 msgid "undelfs: error"

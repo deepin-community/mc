@@ -1,7 +1,7 @@
 /*
    paths to configuration files
 
-   Copyright (C) 2010-2022
+   Copyright (C) 2010-2024
    Free Software Foundation, Inc.
 
    Written by:
@@ -27,7 +27,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
 
 #include "lib/global.h"
 #include "lib/fileloc.h"
@@ -41,6 +40,8 @@
 /*** file scope macro definitions ****************************************************************/
 
 /*** file scope type declarations ****************************************************************/
+
+/*** forward declarations (file scope functions) *************************************************/
 
 /*** file scope variables ************************************************************************/
 
@@ -73,7 +74,7 @@ static const struct
 
     /* data */
     { &mc_data_str, MC_SKINS_DIR },
-    { &mc_data_str, FISH_PREFIX },
+    { &mc_data_str, VFS_SHELL_PREFIX },
     { &mc_data_str, MC_ASHRC_FILE },
     { &mc_data_str, MC_BASHRC_FILE },
     { &mc_data_str, MC_INPUTRC_FILE },

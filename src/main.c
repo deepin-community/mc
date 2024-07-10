@@ -1,7 +1,7 @@
 /*
    Main program for the Midnight Commander
 
-   Copyright (C) 1994-2022
+   Copyright (C) 1994-2024
    Free Software Foundation, Inc.
 
    Written by:
@@ -86,8 +86,11 @@
 
 /*** file scope type declarations ****************************************************************/
 
+/*** forward declarations (file scope functions) *************************************************/
+
 /*** file scope variables ************************************************************************/
 
+/* --------------------------------------------------------------------------------------------- */
 /*** file scope functions ************************************************************************/
 /* --------------------------------------------------------------------------------------------- */
 
@@ -130,7 +133,7 @@ OS_Setup (void)
     mc_shell_init ();
 
     /* This is the directory, where MC was installed, on Unix this is DATADIR */
-    /* and can be overriden by the MC_DATADIR environment variable */
+    /* and can be overridden by the MC_DATADIR environment variable */
     datadir_env = g_getenv ("MC_DATADIR");
     if (datadir_env != NULL)
         mc_global.sysconfig_dir = g_strdup (datadir_env);
@@ -276,6 +279,13 @@ main (int argc, char *argv[])
         return exit_code;
     }
 
+    /* check terminal type
+     * $TERM must be set and not empty
+     * mc_global.tty.xterm_flag is used in init_key() and tty_init()
+     * Do this after mc_args_parse() where mc_args__force_xterm is set up.
+     */
+    mc_global.tty.xterm_flag = tty_check_term (mc_args__force_xterm);
+
     /* do this before mc_args_show_info () to view paths in the --datadir-info output */
     OS_Setup ();
 
@@ -342,13 +352,6 @@ main (int argc, char *argv[])
             g_free (buffer);
         vfs_path_free (vpath, TRUE);
     }
-
-    /* check terminal type
-     * $TERM must be set and not empty
-     * mc_global.tty.xterm_flag is used in init_key() and tty_init()
-     * Do this after mc_args_handle() where mc_args__force_xterm is set up.
-     */
-    mc_global.tty.xterm_flag = tty_check_term (mc_args__force_xterm);
 
     /* NOTE: This has to be called before tty_init or whatever routine
        calls any define_sequence */

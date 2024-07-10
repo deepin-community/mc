@@ -1,7 +1,7 @@
 /*
    Keyboard support routines.
 
-   Copyright (C) 1994-2022
+   Copyright (C) 1994-2024
    Free Software Foundation, Inc.
 
    Written by:
@@ -275,6 +275,8 @@ typedef int (*ph_ov_f) (void *);
 typedef int (*ph_pqc_f) (unsigned short, PhCursorInfo_t *);
 #endif
 
+/*** forward declarations (file scope functions) *************************************************/
+
 /*** file scope variables ************************************************************************/
 
 static key_define_t mc_default_keys[] = {
@@ -450,7 +452,7 @@ static key_define_t xterm_key_defines[] = {
     {0, NULL, MCKEY_NOACTION},
 };
 
-/* qansi-m terminals have a much more key combinatios,
+/* qansi-m terminals have a much more key combinations,
    which are undefined in termcap/terminfo */
 static key_define_t qansi_key_defines[] = {
     /* qansi-m terminal */
@@ -1171,28 +1173,19 @@ getch_with_timeout (unsigned int delay_us)
 /* --------------------------------------------------------------------------------------------- */
 
 static void
-learn_store_key (char *buffer, char **p, int c)
+learn_store_key (GString * buffer, int c)
 {
-    if (*p - buffer > 253)
-        return;
-
     if (c == ESC_CHAR)
-    {
-        *(*p)++ = '\\';
-        *(*p)++ = 'e';
-    }
+        g_string_append (buffer, "\\e");
     else if (c < ' ')
     {
-        *(*p)++ = '^';
-        *(*p)++ = c + 'a' - 1;
+        g_string_append_c (buffer, '^');
+        g_string_append_c (buffer, c + 'a' - 1);
     }
     else if (c == '^')
-    {
-        *(*p)++ = '^';
-        *(*p)++ = '^';
-    }
+        g_string_append (buffer, "^^");
     else
-        *(*p)++ = (char) c;
+        g_string_append_c (buffer, (char) c);
 }
 
 /* --------------------------------------------------------------------------------------------- */
@@ -1449,7 +1442,7 @@ channels_down (void)
  */
 
 long
-lookup_key (const char *name, char **label)
+tty_keyname_to_keycode (const char *name, char **label)
 {
     char **lc_keys, **p;
     char *cname;
@@ -1564,7 +1557,7 @@ lookup_key (const char *name, char **label)
 /* --------------------------------------------------------------------------------------------- */
 
 char *
-lookup_key_by_code (const int keycode)
+tty_keycode_to_keyname (const int keycode)
 {
     /* code without modifier */
     unsigned int k = keycode & ~KEY_M_MASK;
@@ -2161,14 +2154,15 @@ learn_key (void)
     fd_set Read_FD_Set;
     gint64 end_time;
     int c;
-    char buffer[256];
-    char *p = buffer;
+    GString *buffer;
 
-    tty_keypad (FALSE);         /* disable intepreting keys by ncurses */
+    buffer = g_string_sized_new (16);
+
+    tty_keypad (FALSE);         /* disable interpreting keys by ncurses */
     c = tty_lowlevel_getch ();
     while (c == -1)
         c = tty_lowlevel_getch ();      /* Sanity check, should be unnecessary */
-    learn_store_key (buffer, &p, c);
+    learn_store_key (buffer, c);
 
     end_time = g_get_monotonic_time () + LEARN_TIMEOUT * MC_USEC_PER_MSEC;
 
@@ -2192,12 +2186,12 @@ learn_key (void)
         }
         if (c == -1)
             break;
-        learn_store_key (buffer, &p, c);
+        learn_store_key (buffer, c);
     }
     tty_keypad (TRUE);
     tty_nodelay (FALSE);
-    *p = '\0';
-    return (buffer[0] != '\0' ? g_strdup (buffer) : NULL);
+
+    return g_string_free (buffer, buffer->len == 0);
 #undef LEARN_TIMEOUT
 }
 

@@ -92,8 +92,8 @@ host_triplet = @host@
 @ENABLE_VFS_CPIO_TRUE@am__append_2 = cpio/libvfs-cpio.la
 @ENABLE_VFS_EXTFS_TRUE@am__append_3 = extfs
 @ENABLE_VFS_EXTFS_TRUE@am__append_4 = extfs/libvfs-extfs.la
-@ENABLE_VFS_FISH_TRUE@am__append_5 = fish
-@ENABLE_VFS_FISH_TRUE@am__append_6 = fish/libvfs-fish.la
+@ENABLE_VFS_SHELL_TRUE@am__append_5 = shell
+@ENABLE_VFS_SHELL_TRUE@am__append_6 = shell/libvfs-shell.la
 @ENABLE_VFS_FTP_TRUE@am__append_7 = ftpfs
 @ENABLE_VFS_FTP_TRUE@am__append_8 = ftpfs/libvfs-ftpfs.la
 @ENABLE_VFS_SFTP_TRUE@am__append_9 = sftpfs
@@ -123,6 +123,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4.include/gnulib/windows-stat-inodes.m4 \
 	$(top_srcdir)/m4.include/gnulib/sys_types_h.m4 \
 	$(top_srcdir)/m4.include/ax_path_lib_pcre.m4 \
+	$(top_srcdir)/m4.include/ax_check_pcre2.m4 \
 	$(top_srcdir)/m4.include/dx_doxygen.m4 \
 	$(top_srcdir)/m4.include/ax_require_defined.m4 \
 	$(top_srcdir)/m4.include/ax_check_compile_flag.m4 \
@@ -149,7 +150,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4.include/vfs/mc-vfs-sfs.m4 \
 	$(top_srcdir)/m4.include/vfs/mc-vfs-ftp.m4 \
 	$(top_srcdir)/m4.include/vfs/mc-vfs-sftp.m4 \
-	$(top_srcdir)/m4.include/vfs/mc-vfs-fish.m4 \
+	$(top_srcdir)/m4.include/vfs/mc-vfs-shell.m4 \
 	$(top_srcdir)/m4.include/vfs/mc-vfs-undelfs.m4 \
 	$(top_srcdir)/m4.include/vfs/mc-vfs-tarfs.m4 \
 	$(top_srcdir)/m4.include/vfs/mc-vfs-cpiofs.m4 \
@@ -251,7 +252,7 @@ am__define_uniq_tagged_files = \
   unique=`for i in $$list; do \
     if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
   done | $(am__uniquify_input)`
-DIST_SUBDIRS = local cpio extfs fish ftpfs sftpfs sfs tar undelfs
+DIST_SUBDIRS = local cpio extfs shell ftpfs sftpfs sfs tar undelfs
 am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/config/depcomp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
@@ -404,7 +405,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
-PCRE_CPPFLAGS = @PCRE_CPPFLAGS@
+PCRE_CFLAGS = @PCRE_CFLAGS@
 PCRE_LIBS = @PCRE_LIBS@
 PERL = @PERL@
 PERL_FOR_BUILD = @PERL_FOR_BUILD@

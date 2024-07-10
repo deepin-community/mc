@@ -2,7 +2,7 @@
    Internal file viewer for the Midnight Commander
    Callback function for some actions (hotkeys, menu)
 
-   Copyright (C) 1994-2022
+   Copyright (C) 1994-2024
    Free Software Foundation, Inc.
 
    Written by:
@@ -44,7 +44,6 @@
 
 #include <config.h>
 
-#include <errno.h>
 #include <stdlib.h>
 
 #include "lib/global.h"
@@ -52,19 +51,19 @@
 #include "lib/tty/tty.h"
 #include "lib/tty/key.h"        /* is_idle() */
 #include "lib/lock.h"           /* lock_file() */
-#include "lib/util.h"
+#include "lib/file-entry.h"
 #include "lib/widget.h"
 #ifdef HAVE_CHARSET
 #include "lib/charsets.h"
 #endif
 #include "lib/event.h"          /* mc_event_raise() */
-#include "lib/mcconfig.h"       /* mc_config_history_get() */
+#include "lib/mcconfig.h"       /* mc_config_history_get_recent_item() */
 
 #include "src/filemanager/layout.h"
 #include "src/filemanager/filemanager.h"        /* current_panel */
 #include "src/filemanager/ext.h"        /* regex_command_for() */
 
-#include "src/history.h"
+#include "src/history.h"        /* MC_HISTORY_SHARED_SEARCH */
 #include "src/file_history.h"   /* show_file_history() */
 #include "src/execute.h"
 #include "src/keymap.h"
@@ -76,6 +75,8 @@
 /*** file scope macro definitions ****************************************************************/
 
 /*** file scope type declarations ****************************************************************/
+
+/*** forward declarations (file scope functions) *************************************************/
 
 /*** file scope variables ************************************************************************/
 
@@ -138,16 +139,12 @@ mcview_continue_search_cmd (WView * view)
     else
     {
         /* find last search string in history */
-        GList *history;
+        char *s;
 
-        history = mc_config_history_get (MC_HISTORY_SHARED_SEARCH);
-        if (history != NULL)
+        s = mc_config_history_get_recent_item (MC_HISTORY_SHARED_SEARCH);
+        if (s != NULL)
         {
-            /* FIXME: is it possible that history->data == NULL? */
-            view->last_search_string = (gchar *) history->data;
-            history->data = NULL;
-            history = g_list_first (history);
-            g_list_free_full (history, g_free);
+            view->last_search_string = s;
 
             if (mcview_search_init (view))
             {
@@ -192,7 +189,7 @@ mcview_hook (void *v)
 
     mcview_done (view);
     mcview_init (view);
-    mcview_load (view, 0, panel->dir.list[panel->selected].fname->str, 0, 0, 0);
+    mcview_load (view, 0, panel_current_entry (panel)->fname->str, 0, 0, 0);
     mcview_display (view);
 }
 
@@ -272,7 +269,7 @@ mcview_load_next_prev_init (WView * view)
     {
         /* get file list from current panel. Update it each time */
         view->dir = &current_panel->dir;
-        view->dir_idx = &current_panel->selected;
+        view->dir_idx = &current_panel->current;
     }
     else if (view->dir == NULL)
     {
@@ -404,12 +401,6 @@ mcview_execute_cmd (WView * view, long command)
 
     switch (command)
     {
-    case CK_Help:
-        {
-            ev_help_t event_data = { NULL, "[Internal File Viewer]" };
-            mc_event_raise (MCEVENT_GROUP_CORE, "help", &event_data);
-        }
-        break;
     case CK_HexMode:
         /* Toggle between hex view and text view */
         mcview_toggle_hex_mode (view);
@@ -559,7 +550,7 @@ mcview_execute_cmd (WView * view, long command)
         break;
     case CK_Quit:
         if (!mcview_is_in_panel (view))
-            dlg_stop (DIALOG (WIDGET (view)->owner));
+            dlg_close (DIALOG (WIDGET (view)->owner));
         break;
     case CK_Cancel:
         /* don't close viewer due to SIGINT */
@@ -722,7 +713,7 @@ mcview_callback (Widget * w, Widget * sender, widget_msg_t msg, int parm, void *
             delete_hook (&select_file_hook, mcview_hook);
 
             /*
-             * In some cases when mc startup is very slow and one panel is in quick vew mode,
+             * In some cases when mc startup is very slow and one panel is in quick view mode,
              * @view is registered in two hook lists at the same time:
              *   mcview_callback (MSG_INIT) -> add_hook (&select_file_hook)
              *   mcview_hook () -> add_hook (&idle_hook).
@@ -776,7 +767,7 @@ mcview_dialog_callback (Widget * w, Widget * sender, widget_msg_t msg, int parm,
         /* don't stop the dialog before final decision */
         widget_set_state (w, WST_ACTIVE, TRUE);
         if (mcview_ok_to_quit (view))
-            dlg_stop (h);
+            dlg_close (h);
         else
             mcview_update (view);
         return MSG_HANDLED;

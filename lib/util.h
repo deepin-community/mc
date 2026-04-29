@@ -57,6 +57,11 @@
 /* Difference or zero */
 #define DOZ(a, b) ((a) > (b) ? (a) - (b) : 0)
 
+/* flags for shell_execute */
+#define EXECUTE_INTERNAL (1 << 0)
+#define EXECUTE_AS_SHELL (1 << 2)
+#define EXECUTE_HIDE     (1 << 3)
+
 /*** enums ***************************************************************************************/
 
 /* Pathname canonicalization */
@@ -121,6 +126,11 @@ typedef struct
     mc_pipe_stream_t err;
 } mc_pipe_t;
 
+/* sighandler_t is GNU extension */
+#ifndef HAVE_SIGHANDLER_T
+typedef void (*sighandler_t) (int);
+#endif
+
 /*** structures declarations (and typedefs of structures)*****************************************/
 
 /*** global variables defined in .c file *********************************************************/
@@ -181,7 +191,7 @@ char *diff_two_paths (const vfs_path_t * vpath1, const vfs_path_t * vpath2);
 const char *x_basename (const char *fname);
 
 char *load_mc_home_file (const char *from, const char *filename, char **allocated_filename,
-                         size_t * length);
+                         size_t *length);
 
 /* uid/gid managing */
 void init_groups (void);
@@ -193,7 +203,14 @@ const char *get_group (gid_t gid);
 const char *get_owner (uid_t uid);
 
 /* Returns a copy of *s until a \n is found and is below top */
-const char *extract_line (const char *s, const char *top);
+const char *extract_line (const char *s, const char *top, size_t *len);
+
+/* System call wrappers */
+MC_MOCKABLE sighandler_t my_signal (int signum, sighandler_t handler);
+MC_MOCKABLE int my_sigaction (int signum, const struct sigaction *act, struct sigaction *oldact);
+MC_MOCKABLE pid_t my_fork (void);
+MC_MOCKABLE int my_execvp (const char *file, char *const argv[]);
+MC_MOCKABLE char *my_get_current_dir (void);
 
 /* Process spawning */
 int my_system (int flags, const char *shell, const char *command);
@@ -207,7 +224,7 @@ void mc_pclose (mc_pipe_t * p, GError ** error);
 
 GString *mc_pstream_get_string (mc_pipe_stream_t * ps);
 
-void my_exit (int status);
+MC_MOCKABLE void my_exit (int status);
 void save_stop_handler (void);
 
 /* Tilde expansion */
@@ -244,7 +261,7 @@ gboolean mc_util_make_backup_if_possible (const char *file_name, const char *bac
 gboolean mc_util_restore_from_backup_if_possible (const char *file_name, const char *backup_suffix);
 gboolean mc_util_unlink_backup_if_possible (const char *file_name, const char *backup_suffix);
 
-char *guess_message_value (void);
+MC_MOCKABLE char *guess_message_value (void);
 
 char *mc_build_filename (const char *first_element, ...);
 char *mc_build_filenamev (const char *first_element, va_list args);

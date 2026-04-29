@@ -170,6 +170,8 @@ struct WView
     off_t search_start;         /* First character to start searching from */
     off_t search_end;           /* Length of found string or 0 if none was found */
     int search_numNeedSkipChar;
+    /* whether search conditions should be started with BOL(^) or ended with EOL($) */
+    mc_search_line_t search_line_type;
 
     /* Markers */
     int marker;                 /* mark to use */
@@ -325,10 +327,10 @@ int mcview_nroff_seq_prev (mcview_nroff_t * nroff);
 /* search.c: */
 gboolean mcview_search_init (WView * view);
 void mcview_search_deinit (WView * view);
-mc_search_cbret_t mcview_search_cmd_callback (const void *user_data, gsize char_offset,
+mc_search_cbret_t mcview_search_cmd_callback (const void *user_data, off_t char_offset,
                                               int *current_char);
-mc_search_cbret_t mcview_search_update_cmd_callback (const void *user_data, gsize char_offset);
-void mcview_do_search (WView * view, off_t want_search_start);
+mc_search_cbret_t mcview_search_update_cmd_callback (const void *user_data, off_t char_offset);
+void mcview_search (WView * view, gboolean start_search);
 
 /* --------------------------------------------------------------------------------------------- */
 /*** inline functions ****************************************************************************/
@@ -345,7 +347,7 @@ mcview_offset_rounddown (off_t a, off_t b)
 
 /* {{{ Simple Primitive Functions for WView }}} */
 static inline gboolean
-mcview_is_in_panel (WView * view)
+mcview_is_in_panel (WView *view)
 {
     return (view->dpy_frame_size != 0);
 }
@@ -353,7 +355,7 @@ mcview_is_in_panel (WView * view)
 /* --------------------------------------------------------------------------------------------- */
 
 static inline gboolean
-mcview_may_still_grow (WView * view)
+mcview_may_still_grow (WView *view)
 {
     return (view->growbuf_in_use && !view->growbuf_finished);
 }
@@ -372,7 +374,7 @@ mcview_already_loaded (off_t offset, off_t idx, size_t size)
 /* --------------------------------------------------------------------------------------------- */
 
 static inline gboolean
-mcview_get_byte_file (WView * view, off_t byte_index, int *retval)
+mcview_get_byte_file (WView *view, off_t byte_index, int *retval)
 {
     g_assert (view->datasource == DS_FILE);
 
@@ -391,7 +393,7 @@ mcview_get_byte_file (WView * view, off_t byte_index, int *retval)
 /* --------------------------------------------------------------------------------------------- */
 
 static inline gboolean
-mcview_get_byte (WView * view, off_t offset, int *retval)
+mcview_get_byte (WView *view, off_t offset, int *retval)
 {
     switch (view->datasource)
     {
@@ -412,7 +414,7 @@ mcview_get_byte (WView * view, off_t offset, int *retval)
 /* --------------------------------------------------------------------------------------------- */
 
 static inline gboolean
-mcview_get_byte_indexed (WView * view, off_t base, off_t ofs, int *retval)
+mcview_get_byte_indexed (WView *view, off_t base, off_t ofs, int *retval)
 {
     if (base <= OFFSETTYPE_MAX - ofs)
         return mcview_get_byte (view, base + ofs, retval);
@@ -426,7 +428,7 @@ mcview_get_byte_indexed (WView * view, off_t base, off_t ofs, int *retval)
 /* --------------------------------------------------------------------------------------------- */
 
 static inline int
-mcview_count_backspaces (WView * view, off_t offset)
+mcview_count_backspaces (WView *view, off_t offset)
 {
     int backspaces = 0;
     int c;
@@ -441,7 +443,7 @@ mcview_count_backspaces (WView * view, off_t offset)
 /* --------------------------------------------------------------------------------------------- */
 
 static inline gboolean
-mcview_is_nroff_sequence (WView * view, off_t offset)
+mcview_is_nroff_sequence (WView *view, off_t offset)
 {
     int c0, c1, c2;
 
@@ -462,7 +464,7 @@ mcview_is_nroff_sequence (WView * view, off_t offset)
 /* --------------------------------------------------------------------------------------------- */
 
 static inline void
-mcview_growbuf_read_all_data (WView * view)
+mcview_growbuf_read_all_data (WView *view)
 {
     mcview_growbuf_read_until (view, OFFSETTYPE_MAX);
 }

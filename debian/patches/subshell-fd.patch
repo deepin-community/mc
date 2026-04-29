@@ -1,0 +1,90 @@
+Description: fix accidental use of >&10 for subshells
+ POSIX requires shells to only support fd numbers of up to 9
+ for I/O redirections but mc inserts PS1 with “pwd>&%d”, where
+ %d is subshell_pipe[WRITE] which can be a number ≥ 10 which
+ can cause a number of failures in shells that don’t extend
+ beyond POSIX: an error seen when stracing; a ten-second delay
+ at startup; “Pause after run” ignored…
+ .
+ This patch moves the pipe(2) call to slightly earlier so the
+ chance to get a low enough fd is better.
+Bug: https://github.com/MidnightCommander/mc/issues/4634
+Forwarded: https://github.com/MidnightCommander/mc/pull/4724
+Author: Thorsten Glaser <tglaser@b1-systems.de>
+
+--- a/src/subshell/common.c
++++ b/src/subshell/common.c
+@@ -1537,36 +1537,6 @@ init_subshell (void)
+         if (mc_global.shell->type == SHELL_NONE)
+             return;
+ 
+-        /* Open a pty for talking to the subshell */
+-
+-        /* FIXME: We may need to open a fresh pty each time on SVR4 */
+-
+-#ifdef HAVE_OPENPTY
+-        if (openpty (&mc_global.tty.subshell_pty, &subshell_pty_slave, NULL, NULL, NULL))
+-        {
+-            fprintf (stderr, "Cannot open master and slave sides of pty: %s\n",
+-                     unix_error_string (errno));
+-            mc_global.tty.use_subshell = FALSE;
+-            return;
+-        }
+-#else
+-        mc_global.tty.subshell_pty = pty_open_master (pty_name);
+-        if (mc_global.tty.subshell_pty == -1)
+-        {
+-            fprintf (stderr, "Cannot open master side of pty: %s\r\n", unix_error_string (errno));
+-            mc_global.tty.use_subshell = FALSE;
+-            return;
+-        }
+-        subshell_pty_slave = pty_open_slave (pty_name);
+-        if (subshell_pty_slave == -1)
+-        {
+-            fprintf (stderr, "Cannot open slave side of pty %s: %s\r\n",
+-                     pty_name, unix_error_string (errno));
+-            mc_global.tty.use_subshell = FALSE;
+-            return;
+-        }
+-#endif /* HAVE_OPENPTY */
+-
+         /* Create a pipe for receiving the subshell's CWD */
+ 
+         if (mc_global.shell->type == SHELL_TCSH)
+@@ -1608,6 +1578,36 @@ init_subshell (void)
+             mc_global.tty.use_subshell = FALSE;
+             return;
+         }
++
++        /* Open a pty for talking to the subshell */
++
++        /* FIXME: We may need to open a fresh pty each time on SVR4 */
++
++#ifdef HAVE_OPENPTY
++        if (openpty (&mc_global.tty.subshell_pty, &subshell_pty_slave, NULL, NULL, NULL))
++        {
++            fprintf (stderr, "Cannot open master and slave sides of pty: %s\n",
++                     unix_error_string (errno));
++            mc_global.tty.use_subshell = FALSE;
++            return;
++        }
++#else
++        mc_global.tty.subshell_pty = pty_open_master (pty_name);
++        if (mc_global.tty.subshell_pty == -1)
++        {
++            fprintf (stderr, "Cannot open master side of pty: %s\r\n", unix_error_string (errno));
++            mc_global.tty.use_subshell = FALSE;
++            return;
++        }
++        subshell_pty_slave = pty_open_slave (pty_name);
++        if (subshell_pty_slave == -1)
++        {
++            fprintf (stderr, "Cannot open slave side of pty %s: %s\r\n",
++                     pty_name, unix_error_string (errno));
++            mc_global.tty.use_subshell = FALSE;
++            return;
++        }
++#endif /* HAVE_OPENPTY */
+     }
+ 
+     /* Fork the subshell */

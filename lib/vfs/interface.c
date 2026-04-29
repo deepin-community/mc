@@ -1,7 +1,7 @@
 /*
    Virtual File System: interface functions
 
-   Copyright (C) 2011-2024
+   Copyright (C) 2011-2025
    Free Software Foundation, Inc.
 
    Written by:
@@ -80,7 +80,7 @@ extern struct vfs_dirent *mc_readdir_result;
 /* --------------------------------------------------------------------------------------------- */
 
 static vfs_path_t *
-mc_def_getlocalcopy (const vfs_path_t * filename_vpath)
+mc_def_getlocalcopy (const vfs_path_t *filename_vpath)
 {
     vfs_path_t *tmp_vpath = NULL;
     int fdin, fdout = -1;
@@ -130,8 +130,8 @@ mc_def_getlocalcopy (const vfs_path_t * filename_vpath)
 /* --------------------------------------------------------------------------------------------- */
 
 static int
-mc_def_ungetlocalcopy (const vfs_path_t * filename_vpath,
-                       const vfs_path_t * local_vpath, gboolean has_changed)
+mc_def_ungetlocalcopy (const vfs_path_t *filename_vpath,
+                       const vfs_path_t *local_vpath, gboolean has_changed)
 {
     int fdin = -1, fdout = -1;
     const char *local;
@@ -188,7 +188,7 @@ mc_def_ungetlocalcopy (const vfs_path_t * filename_vpath,
 /* --------------------------------------------------------------------------------------------- */
 
 int
-mc_open (const vfs_path_t * vpath, int flags, ...)
+mc_open (const vfs_path_t *vpath, int flags, ...)
 {
     int result = -1;
     mode_t mode = 0;
@@ -267,7 +267,7 @@ MC_NAMEOP (mknod, (const vfs_path_t *vpath, mode_t mode, dev_t dev), (vpath, mod
 /* --------------------------------------------------------------------------------------------- */
 
 int
-mc_symlink (const vfs_path_t * vpath1, const vfs_path_t * vpath2)
+mc_symlink (const vfs_path_t *vpath1, const vfs_path_t *vpath2)
 {
     int result = -1;
 
@@ -361,7 +361,7 @@ mc_ctl (int handle, int ctlop, void *arg)
 /* --------------------------------------------------------------------------------------------- */
 
 int
-mc_setctl (const vfs_path_t * vpath, int ctlop, void *arg)
+mc_setctl (const vfs_path_t *vpath, int ctlop, void *arg)
 {
     int result = -1;
     struct vfs_class *me;
@@ -408,7 +408,7 @@ mc_close (int handle)
 /* --------------------------------------------------------------------------------------------- */
 
 DIR *
-mc_opendir (const vfs_path_t * vpath)
+mc_opendir (const vfs_path_t *vpath)
 {
     int handle, *handlep;
     void *info;
@@ -450,7 +450,7 @@ mc_opendir (const vfs_path_t * vpath)
 /* --------------------------------------------------------------------------------------------- */
 
 struct vfs_dirent *
-mc_readdir (DIR * dirp)
+mc_readdir (DIR *dirp)
 {
     int handle;
     struct vfs_class *vfs;
@@ -481,7 +481,7 @@ mc_readdir (DIR * dirp)
 #ifdef HAVE_CHARSET
         str_vfs_convert_from (vfs_path_element->dir.converter, entry->d_name, vfs_str_buffer);
 #else
-        g_string_assign (vfs_str_buffer, entry->d_name);
+        g_string_append_len (vfs_str_buffer, entry->d_name, entry->d_len);
 #endif
         vfs_dirent_assign (mc_readdir_result, vfs_str_buffer->str, entry->d_ino);
         vfs_dirent_free (entry);
@@ -494,7 +494,7 @@ mc_readdir (DIR * dirp)
 /* --------------------------------------------------------------------------------------------- */
 
 int
-mc_closedir (DIR * dirp)
+mc_closedir (DIR *dirp)
 {
     int handle;
     struct vfs_class *vfs;
@@ -554,10 +554,12 @@ int mc_##name (const vfs_path_t *vpath, struct stat *buf) \
 MC_STATOP (stat)
 MC_STATOP (lstat)
 
+/* *INDENT-ON* */
+
 /* --------------------------------------------------------------------------------------------- */
 
 vfs_path_t *
-mc_getlocalcopy (const vfs_path_t * pathname_vpath)
+mc_getlocalcopy (const vfs_path_t *pathname_vpath)
 {
     vfs_path_t *result = NULL;
     struct vfs_class *me;
@@ -579,7 +581,7 @@ mc_getlocalcopy (const vfs_path_t * pathname_vpath)
 /* --------------------------------------------------------------------------------------------- */
 
 int
-mc_ungetlocalcopy (const vfs_path_t * pathname_vpath, const vfs_path_t * local_vpath,
+mc_ungetlocalcopy (const vfs_path_t *pathname_vpath, const vfs_path_t *local_vpath,
                    gboolean has_changed)
 {
     int result = -1;
@@ -608,7 +610,7 @@ mc_ungetlocalcopy (const vfs_path_t * pathname_vpath, const vfs_path_t * local_v
  */
 
 int
-mc_chdir (const vfs_path_t * vpath)
+mc_chdir (const vfs_path_t *vpath)
 {
     struct vfs_class *old_vfs;
     vfsid old_vfsid;
@@ -729,7 +731,7 @@ mc_lseek (int fd, off_t offset, int whence)
  */
 
 int
-mc_mkstemps (vfs_path_t ** pname_vpath, const char *prefix, const char *suffix)
+mc_mkstemps (vfs_path_t **pname_vpath, const char *prefix, const char *suffix)
 {
     char *p1, *p2;
     int fd;
@@ -762,7 +764,7 @@ mc_mkstemps (vfs_path_t ** pname_vpath, const char *prefix, const char *suffix)
 /* --------------------------------------------------------------------------------------------- */
 /**
  * Return the directory where mc should keep its temporary files.
- * This directory is (in Bourne shell terms) "${TMPDIR=/tmp}/mc-$USER"
+ * This directory is (in Bourne shell terms) "${TMPDIR=/tmp}/mc-XXXXXX"
  * When called the first time, the directory is created if needed.
  * The first call should be done early, since we are using fprintf()
  * and not message() to report possible problems.
@@ -774,14 +776,17 @@ mc_tmpdir (void)
     static char buffer[PATH_MAX];
     static const char *tmpdir = NULL;
     const char *sys_tmp;
-    struct passwd *pwd;
-    struct stat st;
-    const char *error = NULL;
+    gchar *template;
 
     /* Check if already correctly initialized */
-    if (tmpdir != NULL && lstat (tmpdir, &st) == 0 && S_ISDIR (st.st_mode) &&
-        st.st_uid == getuid () && (st.st_mode & 0777) == 0700)
-        return tmpdir;
+    if (tmpdir != NULL)
+    {
+        struct stat st;
+
+        if (lstat (tmpdir, &st) == 0 && S_ISDIR (st.st_mode) && st.st_uid == getuid ()
+            && (st.st_mode & 0777) == 0700)
+            return tmpdir;
+    }
 
     sys_tmp = getenv ("MC_TMPDIR");
     if (sys_tmp == NULL || !IS_PATH_SEP (sys_tmp[0]))
@@ -791,83 +796,22 @@ mc_tmpdir (void)
             sys_tmp = TMPDIR_DEFAULT;
     }
 
-    pwd = getpwuid (getuid ());
-    if (pwd != NULL)
-        g_snprintf (buffer, sizeof (buffer), "%s/mc-%s", sys_tmp, pwd->pw_name);
+    template = g_build_filename (sys_tmp, "mc-XXXXXX", (char *) NULL);
+    g_strlcpy (buffer, template, sizeof (buffer));
+    g_free (template);
+
+    tmpdir = g_mkdtemp (buffer);
+    if (tmpdir != NULL)
+        g_setenv ("MC_TMPDIR", tmpdir, TRUE);
     else
-        g_snprintf (buffer, sizeof (buffer), "%s/mc-%lu", sys_tmp, (unsigned long) getuid ());
-
-    canonicalize_pathname (buffer);
-
-    /* Try to create directory */
-    if (mkdir (buffer, S_IRWXU) != 0)
     {
-        if (errno == EEXIST && lstat (buffer, &st) == 0)
-        {
-            /* Sanity check for existing directory */
-            if (!S_ISDIR (st.st_mode))
-                error = _("%s is not a directory\n");
-            else if (st.st_uid != getuid ())
-                error = _("Directory %s is not owned by you\n");
-            else if (((st.st_mode & 0777) != 0700) && (chmod (buffer, 0700) != 0))
-                error = _("Cannot set correct permissions for directory %s\n");
-        }
-        else
-        {
-            fprintf (stderr,
-                     _("Cannot create temporary directory %s: %s\n"),
-                     buffer, unix_error_string (errno));
-            error = "";
-        }
-    }
-
-    if (error != NULL)
-    {
-        int test_fd;
-        char *fallback_prefix;
-        gboolean fallback_ok = FALSE;
-        vfs_path_t *test_vpath;
-
-        if (*error != '\0')
-            fprintf (stderr, error, buffer);
-
-        /* Test if sys_tmp is suitable for temporary files */
-        fallback_prefix = g_strdup_printf ("%s/mctest", sys_tmp);
-        test_fd = mc_mkstemps (&test_vpath, fallback_prefix, NULL);
-        g_free (fallback_prefix);
-        if (test_fd != -1)
-        {
-            close (test_fd);
-            test_fd = open (vfs_path_as_str (test_vpath), O_RDONLY);
-            if (test_fd != -1)
-            {
-                close (test_fd);
-                unlink (vfs_path_as_str (test_vpath));
-                fallback_ok = TRUE;
-            }
-        }
-
-        if (fallback_ok)
-        {
-            fprintf (stderr, _("Temporary files will be created in %s\n"), sys_tmp);
-            g_snprintf (buffer, sizeof (buffer), "%s", sys_tmp);
-            error = NULL;
-        }
-        else
-        {
-            fprintf (stderr, _("Temporary files will not be created\n"));
-            g_snprintf (buffer, sizeof (buffer), "%s", "/dev/null/");
-        }
-
-        vfs_path_free (test_vpath, TRUE);
+        fprintf (stderr, _("Cannot create temporary directory %s: %s.\n"
+                           "Temporary files will not be created\n"), buffer,
+                 unix_error_string (errno));
+        g_snprintf (buffer, sizeof (buffer), "%s", "/dev/null/");
         fprintf (stderr, "%s\n", _("Press any key to continue..."));
         getc (stdin);
     }
-
-    tmpdir = buffer;
-
-    if (error == NULL)
-        g_setenv ("MC_TMPDIR", tmpdir, TRUE);
 
     return tmpdir;
 }

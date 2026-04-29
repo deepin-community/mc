@@ -5,18 +5,13 @@
 
 export DEB_BUILD_MAINT_OPTIONS=hardening=+all
 
-# minimise needless linking
-export DEB_LDFLAGS_MAINT_APPEND= -Wl,--as-needed
-
 %:
 	dh $@ --with autoreconf
 
-# use --as-needed only if supported by dh-autoreconf (to simplify backporting)
-DH_AS_NEEDED=$(shell dpkg --compare-versions $$(dpkg --status dh-autoreconf | grep Version | cut -d' ' -f2) ge 6 && echo --as-needed)
 override_dh_autoreconf:
 	[ ! -x "./autogen.sh" ] || ./autogen.sh
 	intltoolize --automake --copy --force
-	dh_autoreconf $(DH_AS_NEEDED)
+	dh_autoreconf
 
 # --enable-werror will cause FTBFS on GNU Hurd:
 # src/vfs/fish/fish.c: In function 'fish_fh_open':

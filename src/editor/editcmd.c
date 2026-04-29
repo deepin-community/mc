@@ -1,7 +1,7 @@
 /*
    Editor high level editing commands
 
-   Copyright (C) 1996-2024
+   Copyright (C) 1996-2025
    Free Software Foundation, Inc.
 
    Written by:
@@ -94,7 +94,7 @@ static unsigned long edit_save_mode_radio_id, edit_save_mode_input_id;
 /* --------------------------------------------------------------------------------------------- */
 
 static cb_ret_t
-edit_save_mode_callback (Widget * w, Widget * sender, widget_msg_t msg, int parm, void *data)
+edit_save_mode_callback (Widget *w, Widget *sender, widget_msg_t msg, int parm, void *data)
 {
     switch (msg)
     {
@@ -127,10 +127,9 @@ edit_save_mode_callback (Widget * w, Widget * sender, widget_msg_t msg, int parm
 /* returns 0 on error, -1 on abort */
 
 static int
-edit_save_file (WEdit * edit, const vfs_path_t * filename_vpath)
+edit_save_file (WEdit *edit, const vfs_path_t *filename_vpath)
 {
     char *p;
-    gchar *tmp;
     off_t filelen = 0;
     int this_save_mode, rv, fd = -1;
     vfs_path_t *real_filename_vpath;
@@ -173,7 +172,7 @@ edit_save_file (WEdit * edit, const vfs_path_t * filename_vpath)
     rv = mc_stat (real_filename_vpath, &sb);
     if (rv == 0)
     {
-        if (this_save_mode == EDIT_QUICK_SAVE && !edit->skip_detach_prompt && sb.st_nlink > 1)
+        if (this_save_mode == EDIT_QUICK_SAVE && edit->skip_detach_prompt == 0 && sb.st_nlink > 1)
         {
             rv = edit_query_dialog3 (_("Warning"),
                                      _("File has hard-links. Detach before saving?"),
@@ -239,6 +238,8 @@ edit_save_file (WEdit * edit, const vfs_path_t * filename_vpath)
 
     (void) mc_chown (savename_vpath, edit->stat1.st_uid, edit->stat1.st_gid);
     (void) mc_chmod (savename_vpath, edit->stat1.st_mode);
+    if (edit->attrs_ok)
+        (void) mc_fsetflags (savename_vpath, edit->attrs);
 
     fd = mc_open (savename_vpath, O_CREAT | O_WRONLY | O_TRUNC | O_BINARY, edit->stat1.st_mode);
     if (fd == -1)
@@ -261,9 +262,7 @@ edit_save_file (WEdit * edit, const vfs_path_t * filename_vpath)
 #else
             if (pclose (file) != 0)
             {
-                tmp = g_strdup_printf (_("Error writing to pipe: %s"), p);
-                edit_error_dialog (_("Error"), tmp);
-                g_free (tmp);
+                message (D_ERROR, MSG_ERROR, _("Error writing to pipe: %s"), p);
                 g_free (p);
                 goto error_save;
             }
@@ -271,10 +270,8 @@ edit_save_file (WEdit * edit, const vfs_path_t * filename_vpath)
         }
         else
         {
-            tmp = g_strdup_printf (_("Cannot open pipe for writing: %s"), p);
-            edit_error_dialog (_("Error"), get_sys_error (tmp));
+            message (D_ERROR, MSG_ERROR, _("Cannot open pipe for writing: %s"), p);
             g_free (p);
-            g_free (tmp);
             goto error_save;
         }
         g_free (p);
@@ -312,11 +309,7 @@ edit_save_file (WEdit * edit, const vfs_path_t * filename_vpath)
         }
         else
         {
-            char *msg;
-
-            msg = g_strdup_printf (_("Cannot open file for writing: %s"), savename);
-            edit_error_dialog (_("Error"), msg);
-            g_free (msg);
+            message (D_ERROR, MSG_ERROR, _("Cannot open file for writing: %s"), savename);
             goto error_save;
         }
     }
@@ -366,7 +359,7 @@ edit_save_file (WEdit * edit, const vfs_path_t * filename_vpath)
 /* --------------------------------------------------------------------------------------------- */
 
 static gboolean
-edit_check_newline (const edit_buffer_t * buf)
+edit_check_newline (const edit_buffer_t *buf)
 {
     return !(edit_options.check_nl_at_eof && buf->size > 0
              && edit_buffer_get_byte (buf, buf->size - 1) != '\n'
@@ -378,10 +371,10 @@ edit_check_newline (const edit_buffer_t * buf)
 /* --------------------------------------------------------------------------------------------- */
 
 static vfs_path_t *
-edit_get_save_file_as (WEdit * edit)
+edit_get_save_file_as (WEdit *edit)
 {
     static LineBreaks cur_lb = LB_ASIS;
-    char *filename_res;
+    char *filename_res = NULL;
     vfs_path_t *ret_vpath = NULL;
 
     const char *lb_names[LB_NAMES] = {
@@ -430,16 +423,17 @@ edit_get_save_file_as (WEdit * edit)
 /** returns TRUE on success */
 
 static gboolean
-edit_save_cmd (WEdit * edit)
+edit_save_cmd (WEdit *edit)
 {
-    int res, save_lock = 0;
+    int save_lock = 0;
 
-    if (!edit->locked && !edit->delete_file)
+    if (edit->locked == 0 && edit->delete_file == 0)
         save_lock = lock_file (edit->filename_vpath);
-    res = edit_save_file (edit, edit->filename_vpath);
+
+    const int res = edit_save_file (edit, edit->filename_vpath);
 
     /* Maintain modify (not save) lock on failure */
-    if ((res > 0 && edit->locked) || save_lock)
+    if ((res > 0 && edit->locked != 0) || save_lock != 0)
         edit->locked = unlock_file (edit->filename_vpath);
 
     /* On failure try 'save as', it does locking on its own */
@@ -460,7 +454,7 @@ edit_save_cmd (WEdit * edit)
 /* --------------------------------------------------------------------------------------------- */
 
 static void
-edit_delete_column_of_text (WEdit * edit, off_t m1, off_t m2)
+edit_delete_column_of_text (WEdit *edit, off_t m1, off_t m2)
 {
     off_t n;
     off_t r;
@@ -502,7 +496,7 @@ edit_delete_column_of_text (WEdit * edit, off_t m1, off_t m2)
 /** if success return TRUE */
 
 static gboolean
-edit_block_delete (WEdit * edit, off_t start_mark, off_t end_mark)
+edit_block_delete (WEdit *edit, off_t start_mark, off_t end_mark)
 {
     off_t curs_pos;
     long curs_line, c1, c2;
@@ -570,7 +564,7 @@ edit_block_delete (WEdit * edit, off_t start_mark, off_t end_mark)
 /** Return a null terminated length of text. Result must be g_free'd */
 
 static unsigned char *
-edit_get_block (WEdit * edit, off_t start, off_t finish, off_t * l)
+edit_get_block (WEdit *edit, off_t start, off_t finish, off_t *l)
 {
     unsigned char *s, *r;
 
@@ -614,7 +608,7 @@ edit_get_block (WEdit * edit, off_t start, off_t finish, off_t * l)
 /** copies a block to clipboard file */
 
 static gboolean
-edit_save_block_to_clip_file (WEdit * edit, off_t start, off_t finish)
+edit_save_block_to_clip_file (WEdit *edit, off_t start, off_t finish)
 {
     gboolean ret;
     gchar *tmp;
@@ -629,7 +623,7 @@ edit_save_block_to_clip_file (WEdit * edit, off_t start, off_t finish)
 /* --------------------------------------------------------------------------------------------- */
 
 static void
-pipe_mail (const edit_buffer_t * buf, char *to, char *subject, char *cc)
+pipe_mail (const edit_buffer_t *buf, char *to, char *subject, char *cc)
 {
     FILE *p = 0;
     char *s = NULL;
@@ -675,8 +669,8 @@ pipe_mail (const edit_buffer_t * buf, char *to, char *subject, char *cc)
 /* --------------------------------------------------------------------------------------------- */
 
 static void
-edit_insert_column_of_text (WEdit * edit, unsigned char *data, off_t size, long width,
-                            off_t * start_pos, off_t * end_pos, long *col1, long *col2)
+edit_insert_column_of_text (WEdit *edit, unsigned char *data, off_t size, long width,
+                            off_t *start_pos, off_t *end_pos, long *col1, long *col2)
 {
     off_t i, cursor;
     long col;
@@ -754,8 +748,7 @@ edit_syntax_onoff_cb (void *data, void *user_data)
 /* --------------------------------------------------------------------------------------------- */
 
 static cb_ret_t
-editcmd_dialog_raw_key_query_cb (Widget * w, Widget * sender, widget_msg_t msg, int parm,
-                                 void *data)
+editcmd_dialog_raw_key_query_cb (Widget *w, Widget *sender, widget_msg_t msg, int parm, void *data)
 {
     WDialog *h = DIALOG (w);
 
@@ -790,7 +783,7 @@ edit_refresh_cmd (void)
  */
 
 void
-edit_syntax_onoff_cmd (WDialog * h)
+edit_syntax_onoff_cmd (WDialog *h)
 {
     edit_options.syntax_highlighting = !edit_options.syntax_highlighting;
     g_list_foreach (GROUP (h)->widgets, edit_syntax_onoff_cb, NULL);
@@ -805,7 +798,7 @@ edit_syntax_onoff_cmd (WDialog * h)
  */
 
 void
-edit_show_tabs_tws_cmd (WDialog * h)
+edit_show_tabs_tws_cmd (WDialog *h)
 {
     enable_show_tabs_tws = !enable_show_tabs_tws;
     widget_draw (WIDGET (h));
@@ -819,7 +812,7 @@ edit_show_tabs_tws_cmd (WDialog * h)
  */
 
 void
-edit_show_margin_cmd (WDialog * h)
+edit_show_margin_cmd (WDialog *h)
 {
     edit_options.show_right_margin = !edit_options.show_right_margin;
     widget_draw (WIDGET (h));
@@ -833,7 +826,7 @@ edit_show_margin_cmd (WDialog * h)
  */
 
 void
-edit_show_numbers_cmd (WDialog * h)
+edit_show_numbers_cmd (WDialog *h)
 {
     edit_options.line_state = !edit_options.line_state;
     edit_options.line_state_width = edit_options.line_state ? LINE_STATE_WIDTH : 0;
@@ -893,7 +886,7 @@ edit_save_mode_cmd (void)
 /* --------------------------------------------------------------------------------------------- */
 
 void
-edit_set_filename (WEdit * edit, const vfs_path_t * name_vpath)
+edit_set_filename (WEdit *edit, const vfs_path_t *name_vpath)
 {
     vfs_path_free (edit->filename_vpath, TRUE);
     edit->filename_vpath = vfs_path_clone (name_vpath);
@@ -907,7 +900,7 @@ edit_set_filename (WEdit * edit, const vfs_path_t * name_vpath)
    but only if they have made a change to the filename */
 /* returns TRUE on success */
 gboolean
-edit_save_as_cmd (WEdit * edit)
+edit_save_as_cmd (WEdit *edit)
 {
     /* This heads the 'Save As' dialog box */
     vfs_path_t *exp_vpath;
@@ -932,9 +925,8 @@ edit_save_as_cmd (WEdit * edit)
 
             if (mc_stat (exp_vpath, &sb) == 0 && !S_ISREG (sb.st_mode))
             {
-                edit_error_dialog (_("Save as"),
-                                   get_sys_error (_
-                                                  ("Cannot save: destination is not a regular file")));
+                message (D_ERROR, MSG_ERROR, "%s",
+                         _("Cannot save: destination is not a regular file"));
                 goto ret;
             }
 
@@ -956,7 +948,7 @@ edit_save_as_cmd (WEdit * edit)
 
             save_lock = lock_file (exp_vpath);
         }
-        else if (!edit->locked && !edit->delete_file)
+        else if (edit->locked == 0 && edit->delete_file == 0)
             /* filenames equal, check if already locked */
             save_lock = lock_file (exp_vpath);
 
@@ -972,12 +964,12 @@ edit_save_as_cmd (WEdit * edit)
             /* Successful, so unlock both files */
             if (different_filename)
             {
-                if (save_lock)
+                if (save_lock != 0)
                     unlock_file (exp_vpath);
-                if (edit->locked)
+                if (edit->locked != 0)
                     edit->locked = unlock_file (edit->filename_vpath);
             }
-            else if (edit->locked || save_lock)
+            else if (edit->locked != 0 || save_lock != 0)
                 edit->locked = unlock_file (edit->filename_vpath);
 
             edit_set_filename (edit, exp_vpath);
@@ -991,12 +983,12 @@ edit_save_as_cmd (WEdit * edit)
             break;
 
         default:
-            edit_error_dialog (_("Save as"), get_sys_error (_("Cannot save file")));
+            message (D_ERROR, MSG_ERROR, "%s", _("Cannot save file"));
             MC_FALLTHROUGH;
 
         case -1:
             /* Failed, so maintain modify (not save) lock */
-            if (save_lock)
+            if (save_lock != 0)
                 unlock_file (exp_vpath);
             break;
         }
@@ -1012,7 +1004,7 @@ edit_save_as_cmd (WEdit * edit)
 /** returns TRUE on success */
 
 gboolean
-edit_save_confirm_cmd (WEdit * edit)
+edit_save_confirm_cmd (WEdit *edit)
 {
     if (edit->filename_vpath == NULL)
         return edit_save_as_cmd (edit);
@@ -1044,7 +1036,7 @@ edit_save_confirm_cmd (WEdit * edit)
   */
 
 gboolean
-edit_load_cmd (WDialog * h)
+edit_load_cmd (WDialog *h)
 {
     char *exp;
     gboolean ret = TRUE;        /* possible cancel */
@@ -1056,9 +1048,11 @@ edit_load_cmd (WDialog * h)
     if (exp != NULL && *exp != '\0')
     {
         vfs_path_t *exp_vpath;
+        edit_arg_t arg;
 
         exp_vpath = vfs_path_from_str (exp);
-        ret = edit_load_file_from_filename (h, exp_vpath, 0);
+        edit_arg_init (&arg, exp_vpath, 0);
+        ret = edit_load_file_from_filename (h, &arg);
         vfs_path_free (exp_vpath, TRUE);
     }
 
@@ -1079,13 +1073,13 @@ edit_load_cmd (WDialog * h)
  */
 
 gboolean
-edit_load_file_from_filename (WDialog * h, const vfs_path_t * vpath, long line)
+edit_load_file_from_filename (WDialog *h, const edit_arg_t *arg)
 {
     WRect r = WIDGET (h)->rect;
 
     rect_grow (&r, -1, 0);
 
-    return edit_add_window (h, &r, vpath, line);
+    return edit_add_window (h, &r, arg);
 }
 
 /* --------------------------------------------------------------------------------------------- */
@@ -1096,7 +1090,7 @@ edit_load_file_from_filename (WDialog * h, const vfs_path_t * vpath, long line)
   */
 
 gboolean
-edit_load_file_from_history (WDialog * h)
+edit_load_file_from_history (WDialog *h)
 {
     char *exp;
     int action;
@@ -1106,9 +1100,11 @@ edit_load_file_from_history (WDialog * h)
     if (exp != NULL && (action == CK_Edit || action == CK_Enter))
     {
         vfs_path_t *exp_vpath;
+        edit_arg_t arg;
 
         exp_vpath = vfs_path_from_str (exp);
-        ret = edit_load_file_from_filename (h, exp_vpath, 0);
+        edit_arg_init (&arg, exp_vpath, 0);
+        ret = edit_load_file_from_filename (h, &arg);
         vfs_path_free (exp_vpath, TRUE);
     }
 
@@ -1125,10 +1121,11 @@ edit_load_file_from_history (WDialog * h)
   */
 
 gboolean
-edit_load_syntax_file (WDialog * h)
+edit_load_syntax_file (WDialog *h)
 {
     vfs_path_t *extdir_vpath;
     int dir = 0;
+    edit_arg_t arg;
     gboolean ret = FALSE;
 
     if (geteuid () == 0)
@@ -1151,11 +1148,15 @@ edit_load_syntax_file (WDialog * h)
 
         user_syntax_file_vpath = mc_config_get_full_vpath (EDIT_SYNTAX_FILE);
         check_for_default (extdir_vpath, user_syntax_file_vpath);
-        ret = edit_load_file_from_filename (h, user_syntax_file_vpath, 0);
+        edit_arg_init (&arg, user_syntax_file_vpath, 0);
+        ret = edit_load_file_from_filename (h, &arg);
         vfs_path_free (user_syntax_file_vpath, TRUE);
     }
     else if (dir == 1)
-        ret = edit_load_file_from_filename (h, extdir_vpath, 0);
+    {
+        edit_arg_init (&arg, extdir_vpath, 0);
+        ret = edit_load_file_from_filename (h, &arg);
+    }
 
     vfs_path_free (extdir_vpath, TRUE);
 
@@ -1170,11 +1171,12 @@ edit_load_syntax_file (WDialog * h)
   */
 
 gboolean
-edit_load_menu_file (WDialog * h)
+edit_load_menu_file (WDialog *h)
 {
     vfs_path_t *buffer_vpath;
     vfs_path_t *menufile_vpath;
     int dir;
+    edit_arg_t arg;
     gboolean ret;
 
     query_set_sel (1);
@@ -1220,7 +1222,8 @@ edit_load_menu_file (WDialog * h)
         return FALSE;
     }
 
-    ret = edit_load_file_from_filename (h, buffer_vpath, 0);
+    edit_arg_init (&arg, buffer_vpath, 0);
+    ret = edit_load_file_from_filename (h, &arg);
 
     vfs_path_free (buffer_vpath, TRUE);
     vfs_path_free (menufile_vpath, TRUE);
@@ -1236,7 +1239,7 @@ edit_load_menu_file (WDialog * h)
   */
 
 gboolean
-edit_close_cmd (WEdit * edit)
+edit_close_cmd (WEdit *edit)
 {
     gboolean ret;
 
@@ -1248,7 +1251,7 @@ edit_close_cmd (WEdit * edit)
         WGroup *g = w->owner;
 
         if (edit->locked != 0)
-            unlock_file (edit->filename_vpath);
+            edit->locked = unlock_file (edit->filename_vpath);
 
         group_remove_widget (w);
         widget_destroy (w);
@@ -1272,7 +1275,7 @@ edit_close_cmd (WEdit * edit)
 /* --------------------------------------------------------------------------------------------- */
 
 void
-edit_block_copy_cmd (WEdit * edit)
+edit_block_copy_cmd (WEdit *edit)
 {
     off_t start_mark, end_mark, current = edit->buffer.curs1;
     off_t mark1 = 0, mark2 = 0;
@@ -1324,7 +1327,7 @@ edit_block_copy_cmd (WEdit * edit)
 /* --------------------------------------------------------------------------------------------- */
 
 void
-edit_block_move_cmd (WEdit * edit)
+edit_block_move_cmd (WEdit *edit)
 {
     off_t current;
     unsigned char *copy_buf = NULL;
@@ -1429,7 +1432,7 @@ edit_block_move_cmd (WEdit * edit)
 /** returns FALSE if canceelled by user */
 
 gboolean
-edit_block_delete_cmd (WEdit * edit)
+edit_block_delete_cmd (WEdit *edit)
 {
     off_t start_mark, end_mark;
 
@@ -1449,13 +1452,13 @@ edit_block_delete_cmd (WEdit * edit)
   */
 
 gboolean
-edit_ok_to_exit (WEdit * edit)
+edit_ok_to_exit (WEdit *edit)
 {
     const char *fname = N_("[NoName]");
     char *msg;
     int act;
 
-    if (!edit->modified)
+    if (edit->modified == 0)
         return TRUE;
 
     if (edit->filename_vpath != NULL)
@@ -1510,7 +1513,7 @@ edit_ok_to_exit (WEdit * edit)
 /** save block, returns TRUE on success */
 
 gboolean
-edit_save_block (WEdit * edit, const char *filename, off_t start, off_t finish)
+edit_save_block (WEdit *edit, const char *filename, off_t start, off_t finish)
 {
     int file;
     off_t len = 1;
@@ -1571,16 +1574,17 @@ edit_save_block (WEdit * edit, const char *filename, off_t start, off_t finish)
 /* --------------------------------------------------------------------------------------------- */
 
 void
-edit_paste_from_history (WEdit * edit)
+edit_paste_from_history (WEdit *edit)
 {
     (void) edit;
-    edit_error_dialog (_("Error"), _("This function is not implemented"));
+
+    message (D_ERROR, MSG_ERROR, "%s", _("This function is not implemented"));
 }
 
 /* --------------------------------------------------------------------------------------------- */
 
 gboolean
-edit_copy_to_X_buf_cmd (WEdit * edit)
+edit_copy_to_X_buf_cmd (WEdit *edit)
 {
     off_t start_mark, end_mark;
 
@@ -1589,7 +1593,7 @@ edit_copy_to_X_buf_cmd (WEdit * edit)
 
     if (!edit_save_block_to_clip_file (edit, start_mark, end_mark))
     {
-        edit_error_dialog (_("Copy to clipboard"), get_sys_error (_("Unable to save to file")));
+        message (D_ERROR, MSG_ERROR, "%s", _("Unable to save to file"));
         return FALSE;
     }
     /* try use external clipboard utility */
@@ -1604,7 +1608,7 @@ edit_copy_to_X_buf_cmd (WEdit * edit)
 /* --------------------------------------------------------------------------------------------- */
 
 gboolean
-edit_cut_to_X_buf_cmd (WEdit * edit)
+edit_cut_to_X_buf_cmd (WEdit *edit)
 {
     off_t start_mark, end_mark;
 
@@ -1613,7 +1617,7 @@ edit_cut_to_X_buf_cmd (WEdit * edit)
 
     if (!edit_save_block_to_clip_file (edit, start_mark, end_mark))
     {
-        edit_error_dialog (_("Cut to clipboard"), _("Unable to save to file"));
+        message (D_ERROR, MSG_ERROR, "%s", _("Unable to save to file"));
         return FALSE;
     }
     /* try use external clipboard utility */
@@ -1628,7 +1632,7 @@ edit_cut_to_X_buf_cmd (WEdit * edit)
 /* --------------------------------------------------------------------------------------------- */
 
 gboolean
-edit_paste_from_X_buf_cmd (WEdit * edit)
+edit_paste_from_X_buf_cmd (WEdit *edit)
 {
     vfs_path_t *tmp;
     gboolean ret;
@@ -1649,7 +1653,7 @@ edit_paste_from_X_buf_cmd (WEdit * edit)
  */
 
 void
-edit_goto_cmd (WEdit * edit)
+edit_goto_cmd (WEdit *edit)
 {
     static gboolean first_run = TRUE;
 
@@ -1687,7 +1691,7 @@ edit_goto_cmd (WEdit * edit)
 /** Return TRUE on success */
 
 gboolean
-edit_save_block_cmd (WEdit * edit)
+edit_save_block_cmd (WEdit *edit)
 {
     off_t start_mark, end_mark;
     char *exp, *tmp;
@@ -1708,7 +1712,7 @@ edit_save_block_cmd (WEdit * edit)
         if (edit_save_block (edit, exp, start_mark, end_mark))
             ret = TRUE;
         else
-            edit_error_dialog (_("Save block"), get_sys_error (_("Cannot save file")));
+            message (D_ERROR, MSG_ERROR, "%s", _("Cannot save block"));
 
         edit->force |= REDRAW_COMPLETELY;
     }
@@ -1722,7 +1726,7 @@ edit_save_block_cmd (WEdit * edit)
 
 /** returns TRUE on success */
 gboolean
-edit_insert_file_cmd (WEdit * edit)
+edit_insert_file_cmd (WEdit *edit)
 {
     char *tmp;
     char *exp;
@@ -1744,7 +1748,7 @@ edit_insert_file_cmd (WEdit * edit)
         vfs_path_free (exp_vpath, TRUE);
 
         if (!ret)
-            edit_error_dialog (_("Insert file"), get_sys_error (_("Cannot insert file")));
+            message (D_ERROR, MSG_ERROR, "%s", _("Cannot insert file"));
     }
 
     g_free (exp);
@@ -1757,7 +1761,7 @@ edit_insert_file_cmd (WEdit * edit)
 /** sorts a block, returns -1 on system fail, 1 on cancel and 0 on success */
 
 int
-edit_sort_cmd (WEdit * edit)
+edit_sort_cmd (WEdit *edit)
 {
     char *exp, *tmp, *tmp_edit_block_name, *tmp_edit_temp_name;
     off_t start_mark, end_mark;
@@ -1765,7 +1769,7 @@ edit_sort_cmd (WEdit * edit)
 
     if (!eval_marks (edit, &start_mark, &end_mark))
     {
-        edit_error_dialog (_("Sort block"), _("You must first highlight a block of text"));
+        message (D_ERROR, MSG_ERROR, "%s", _("You must first highlight a block of text"));
         return 0;
     }
 
@@ -1794,15 +1798,13 @@ edit_sort_cmd (WEdit * edit)
     if (e != 0)
     {
         if (e == -1 || e == 127)
-            edit_error_dialog (_("Sort"), get_sys_error (_("Cannot execute sort command")));
+            message (D_ERROR, MSG_ERROR, "%s", _("Cannot execute sort command"));
         else
         {
             char q[8];
 
             sprintf (q, "%d ", e);
-            tmp = g_strdup_printf (_("Sort returned non-zero: %s"), q);
-            edit_error_dialog (_("Sort"), tmp);
-            g_free (tmp);
+            message (D_ERROR, MSG_ERROR, _("Sort returned non-zero: %s"), q);
         }
 
         return -1;
@@ -1831,7 +1833,7 @@ edit_sort_cmd (WEdit * edit)
  */
 
 int
-edit_ext_cmd (WEdit * edit)
+edit_ext_cmd (WEdit *edit)
 {
     char *exp, *tmp, *tmp_edit_temp_file;
     int e;
@@ -1855,7 +1857,7 @@ edit_ext_cmd (WEdit * edit)
 
     if (e != 0)
     {
-        edit_error_dialog (_("External command"), get_sys_error (_("Cannot execute command")));
+        message (D_ERROR, MSG_ERROR, "%s", _("Cannot execute external command"));
         return -1;
     }
 
@@ -1878,7 +1880,7 @@ edit_ext_cmd (WEdit * edit)
    command, that just produces some output which is to be inserted */
 
 void
-edit_block_process_cmd (WEdit * edit, int macro_number)
+edit_block_process_cmd (WEdit *edit, int macro_number)
 {
     char *fname;
     char *macros_fname = NULL;
@@ -1894,9 +1896,11 @@ edit_block_process_cmd (WEdit * edit, int macro_number)
 /* --------------------------------------------------------------------------------------------- */
 
 void
-edit_mail_dialog (WEdit * edit)
+edit_mail_dialog (WEdit *edit)
 {
-    char *mail_to, *mail_subject, *mail_cc;
+    char *mail_to = NULL;
+    char *mail_subject = NULL;
+    char *mail_cc = NULL;
 
     quick_widget_t quick_widgets[] = {
         /* *INDENT-OFF* */
@@ -1935,7 +1939,7 @@ edit_mail_dialog (WEdit * edit)
 
 #ifdef HAVE_CHARSET
 void
-edit_select_codepage_cmd (WEdit * edit)
+edit_select_codepage_cmd (WEdit *edit)
 {
     if (do_select_codepage ())
         edit_set_codeset (edit);
@@ -1948,7 +1952,7 @@ edit_select_codepage_cmd (WEdit * edit)
 /* --------------------------------------------------------------------------------------------- */
 
 void
-edit_insert_literal_cmd (WEdit * edit)
+edit_insert_literal_cmd (WEdit *edit)
 {
     int char_for_insertion;
 
@@ -1960,9 +1964,9 @@ edit_insert_literal_cmd (WEdit * edit)
 /* --------------------------------------------------------------------------------------------- */
 
 gboolean
-edit_load_forward_cmd (WEdit * edit)
+edit_load_forward_cmd (WEdit *edit)
 {
-    if (edit->modified
+    if (edit->modified != 0
         && edit_query_dialog2 (_("Warning"),
                                _("Current text was modified without a file save.\n"
                                  "Continue discards these changes."), _("C&ontinue"),
@@ -1975,13 +1979,12 @@ edit_load_forward_cmd (WEdit * edit)
     if (edit_stack_iterator + 1 >= MAX_HISTORY_MOVETO)
         return FALSE;
 
-    if (edit_history_moveto[edit_stack_iterator + 1].line < 1)
+    if (edit_history_moveto[edit_stack_iterator + 1].line_number < 1)
         return FALSE;
 
     edit_stack_iterator++;
-    if (edit_history_moveto[edit_stack_iterator].filename_vpath != NULL)
-        return edit_reload_line (edit, edit_history_moveto[edit_stack_iterator].filename_vpath,
-                                 edit_history_moveto[edit_stack_iterator].line);
+    if (edit_history_moveto[edit_stack_iterator].file_vpath != NULL)
+        return edit_reload_line (edit, &edit_history_moveto[edit_stack_iterator]);
 
     return FALSE;
 }
@@ -1989,9 +1992,9 @@ edit_load_forward_cmd (WEdit * edit)
 /* --------------------------------------------------------------------------------------------- */
 
 gboolean
-edit_load_back_cmd (WEdit * edit)
+edit_load_back_cmd (WEdit *edit)
 {
-    if (edit->modified
+    if (edit->modified != 0
         && edit_query_dialog2 (_("Warning"),
                                _("Current text was modified without a file save.\n"
                                  "Continue discards these changes."), _("C&ontinue"),
@@ -2006,9 +2009,8 @@ edit_load_back_cmd (WEdit * edit)
         return FALSE;
 
     edit_stack_iterator--;
-    if (edit_history_moveto[edit_stack_iterator].filename_vpath != NULL)
-        return edit_reload_line (edit, edit_history_moveto[edit_stack_iterator].filename_vpath,
-                                 edit_history_moveto[edit_stack_iterator].line);
+    if (edit_history_moveto[edit_stack_iterator].file_vpath != NULL)
+        return edit_reload_line (edit, &edit_history_moveto[edit_stack_iterator]);
 
     return FALSE;
 }

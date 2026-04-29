@@ -19,9 +19,9 @@
 
 typedef enum mc_search_cbret_t mc_search_cbret_t;
 
-typedef mc_search_cbret_t (*mc_search_fn) (const void *user_data, gsize char_offset,
+typedef mc_search_cbret_t (*mc_search_fn) (const void *user_data, off_t char_offset,
                                            int *current_char);
-typedef mc_search_cbret_t (*mc_update_fn) (const void *user_data, gsize char_offset);
+typedef mc_search_cbret_t (*mc_update_fn) (const void *user_data, off_t char_offset);
 
 #define MC_SEARCH__NUM_REPLACE_ARGS 64
 
@@ -59,6 +59,18 @@ typedef enum
     MC_SEARCH_T_HEX,
     MC_SEARCH_T_GLOB
 } mc_search_type_t;
+
+/**
+ * enum to store search conditions check results.
+ * (whether the search condition has BOL (^) or EOL ($) regexp characters).
+*/
+typedef enum
+{
+    MC_SEARCH_LINE_NONE = 0,
+    MC_SEARCH_LINE_BEGIN = 1 << 0,
+    MC_SEARCH_LINE_END = 1 << 1,
+    MC_SEARCH_LINE_ENTIRE = MC_SEARCH_LINE_BEGIN | MC_SEARCH_LINE_END
+} mc_search_line_t;
 
 enum mc_search_cbret_t
 {
@@ -168,22 +180,24 @@ void mc_search_free (mc_search_t * lc_mc_search);
 
 gboolean mc_search_prepare (mc_search_t * mc_search);
 
-gboolean mc_search_run (mc_search_t * mc_search, const void *user_data, gsize start_search,
-                        gsize end_search, gsize * found_len);
+gboolean mc_search_run (mc_search_t * mc_search, const void *user_data, off_t start_search,
+                        off_t end_search, gsize * found_len);
 
 gboolean mc_search_is_type_avail (mc_search_type_t search_type);
 
-const mc_search_type_str_t *mc_search_types_list_get (size_t * num);
+const mc_search_type_str_t *mc_search_types_list_get (size_t *num);
 
 GString *mc_search_prepare_replace_str (mc_search_t * mc_search, GString * replace_str);
 char *mc_search_prepare_replace_str2 (mc_search_t * lc_mc_search, const char *replace_str);
 
 gboolean mc_search_is_fixed_search_str (const mc_search_t * lc_mc_search);
 
-gchar **mc_search_get_types_strings_array (size_t * num);
+gchar **mc_search_get_types_strings_array (size_t *num);
 
 gboolean mc_search (const gchar * pattern, const gchar * pattern_charset, const gchar * str,
                     mc_search_type_t type);
+
+mc_search_line_t mc_search_get_line_type (const mc_search_t *search);
 
 int mc_search_getstart_result_by_num (mc_search_t * lc_mc_search, int lc_index);
 int mc_search_getend_result_by_num (mc_search_t * lc_mc_search, int lc_index);

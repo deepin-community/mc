@@ -1,7 +1,7 @@
 /*
    Main dialog (file panels) of the Midnight Commander
 
-   Copyright (C) 1994-2024
+   Copyright (C) 1994-2025
    Free Software Foundation, Inc.
 
    Written by:
@@ -44,13 +44,11 @@
 #include <pwd.h>                /* for username in xterm title */
 
 #include "lib/global.h"
-#include "lib/fileloc.h"        /* MC_HINT */
-
+#include "lib/fileloc.h"        /* MC_HINT, MC_FILEPOS_FILE */
 #include "lib/tty/tty.h"
 #include "lib/tty/key.h"        /* KEY_M_* masks */
 #include "lib/skin.h"
 #include "lib/util.h"
-
 #include "lib/vfs/vfs.h"
 
 #include "src/args.h"
@@ -61,7 +59,8 @@
 #include "src/setup.h"          /* variables */
 #include "src/learn.h"          /* learn_keys() */
 #include "src/keymap.h"
-#include "lib/fileloc.h"        /* MC_FILEPOS_FILE */
+#include "src/usermenu.h"       /* user_file_menu_cmd() */
+
 #include "lib/keybind.h"
 #include "lib/event.h"
 
@@ -149,9 +148,14 @@ stop_dialogs (void)
 static void
 treebox_cmd (void)
 {
+    const file_entry_t *fe;
     char *sel_dir;
 
-    sel_dir = tree_box (panel_current_entry (current_panel)->fname->str);
+    fe = panel_current_entry (current_panel);
+    if (fe == NULL)
+        return;
+
+    sel_dir = tree_box (fe->fname->str);
     if (sel_dir != NULL)
     {
         vfs_path_t *sel_vdir;
@@ -426,7 +430,7 @@ midnight_get_shortcut (long command)
 /* --------------------------------------------------------------------------------------------- */
 
 static char *
-midnight_get_title (const WDialog * h, size_t len)
+midnight_get_title (const WDialog *h, size_t len)
 {
     char *path;
     char *login;
@@ -460,28 +464,18 @@ toggle_panels_split (void)
 #ifdef ENABLE_VFS
 /* event helper */
 static gboolean
-check_panel_timestamp (const WPanel * panel, panel_view_mode_t mode, struct vfs_class *vclass,
-                       vfsid id)
+check_panel_timestamp (const WPanel *panel, panel_view_mode_t mode, const struct vfs_class *vclass,
+                       const vfsid id)
 {
-    if (mode == view_listing)
-    {
-        const struct vfs_class *me;
-
-        me = vfs_path_get_last_path_vfs (panel->cwd_vpath);
-        if (me != vclass)
-            return FALSE;
-
-        if (vfs_getid (panel->cwd_vpath) != id)
-            return FALSE;
-    }
-    return TRUE;
+    return (mode != view_listing || (vfs_path_get_last_path_vfs (panel->cwd_vpath) == vclass
+                                     && vfs_getid (panel->cwd_vpath) == id));
 }
 
 /* --------------------------------------------------------------------------------------------- */
 
 /* event callback */
 static gboolean
-check_current_panel_timestamp (const gchar * event_group_name, const gchar * event_name,
+check_current_panel_timestamp (const gchar *event_group_name, const gchar *event_name,
                                gpointer init_data, gpointer data)
 {
     ev_vfs_stamp_create_t *event_data = (ev_vfs_stamp_create_t *) data;
@@ -500,7 +494,7 @@ check_current_panel_timestamp (const gchar * event_group_name, const gchar * eve
 
 /* event callback */
 static gboolean
-check_other_panel_timestamp (const gchar * event_group_name, const gchar * event_name,
+check_other_panel_timestamp (const gchar *event_group_name, const gchar *event_name,
                              gpointer init_data, gpointer data)
 {
     ev_vfs_stamp_create_t *event_data = (ev_vfs_stamp_create_t *) data;
@@ -519,7 +513,7 @@ check_other_panel_timestamp (const gchar * event_group_name, const gchar * event
 
 /* event callback */
 static gboolean
-print_vfs_message (const gchar * event_group_name, const gchar * event_name,
+print_vfs_message (const gchar *event_group_name, const gchar *event_name,
                    gpointer init_data, gpointer data)
 {
     ev_vfs_print_message_t *event_data = (ev_vfs_print_message_t *) data;
@@ -693,7 +687,7 @@ create_panels (void)
 /* --------------------------------------------------------------------------------------------- */
 
 static void
-midnight_put_panel_path (WPanel * panel)
+midnight_put_panel_path (WPanel *panel)
 {
     vfs_path_t *cwd_vpath;
     const char *cwd_vpath_str;
@@ -720,7 +714,7 @@ midnight_put_panel_path (WPanel * panel)
 /* --------------------------------------------------------------------------------------------- */
 
 static void
-put_link (WPanel * panel)
+put_link (WPanel *panel)
 {
     const file_entry_t *fe;
 
@@ -729,7 +723,7 @@ put_link (WPanel * panel)
 
     fe = panel_current_entry (panel);
 
-    if (S_ISLNK (fe->st.st_mode))
+    if (fe != NULL && S_ISLNK (fe->st.st_mode))
     {
         char buffer[MC_MAXPATHLEN];
         vfs_path_t *vpath;
@@ -770,8 +764,6 @@ put_other_link (void)
 static void
 put_current_selected (void)
 {
-    const char *tmp;
-
     if (!command_prompt)
         return;
 
@@ -782,23 +774,37 @@ put_current_selected (void)
 
         tree = (WTree *) get_panel_widget (get_current_index ());
         selected_name = tree_selected_name (tree);
-        tmp = vfs_path_as_str (selected_name);
+        command_insert (cmdline, vfs_path_as_str (selected_name), TRUE);
     }
     else
-        tmp = panel_current_entry (current_panel)->fname->str;
+    {
+        const file_entry_t *fe;
 
-    command_insert (cmdline, tmp, TRUE);
+        fe = panel_current_entry (current_panel);
+        if (fe != NULL)
+            command_insert (cmdline, fe->fname->str, TRUE);
+    }
 }
 
 /* --------------------------------------------------------------------------------------------- */
 
 static void
-put_tagged (WPanel * panel)
+put_tagged (WPanel *panel)
 {
     if (!command_prompt)
         return;
+
     input_disable_update (cmdline);
-    if (panel->marked)
+
+    if (panel->marked == 0)
+    {
+        const file_entry_t *fe;
+
+        fe = panel_current_entry (current_panel);
+        if (fe != NULL)
+            command_insert (cmdline, fe->fname->str, TRUE);
+    }
+    else
     {
         int i;
 
@@ -806,8 +812,6 @@ put_tagged (WPanel * panel)
             if (panel->dir.list[i].f.marked != 0)
                 command_insert (cmdline, panel->dir.list[i].fname->str, TRUE);
     }
-    else
-        command_insert (cmdline, panel_current_entry (panel)->fname->str, TRUE);
 
     input_enable_update (cmdline);
 }
@@ -850,7 +854,8 @@ setup_mc (void)
 #endif /* HAVE_CHARSET */
 #endif /* HAVE_SLANG */
 
-    if ((tty_baudrate () < 9600) || mc_global.tty.slow_terminal)
+    const int baudrate = tty_baudrate ();
+    if ((baudrate > 0 && baudrate < 9600) || mc_global.tty.slow_terminal)
         verbose = FALSE;
 }
 
@@ -1120,7 +1125,7 @@ toggle_show_hidden (void)
 /* --------------------------------------------------------------------------------------------- */
 
 static cb_ret_t
-midnight_execute_cmd (Widget * sender, long command)
+midnight_execute_cmd (Widget *sender, long command)
 {
     cb_ret_t res = MSG_HANDLED;
 
@@ -1474,7 +1479,7 @@ handle_cmdline_enter (void)
 /* --------------------------------------------------------------------------------------------- */
 
 static cb_ret_t
-midnight_callback (Widget * w, Widget * sender, widget_msg_t msg, int parm, void *data)
+midnight_callback (Widget *w, Widget *sender, widget_msg_t msg, int parm, void *data)
 {
     long command;
 
@@ -1627,7 +1632,7 @@ update_menu (void)
 /* --------------------------------------------------------------------------------------------- */
 
 void
-midnight_set_buttonbar (WButtonBar * b)
+midnight_set_buttonbar (WButtonBar *b)
 {
     Widget *w = WIDGET (filemanager);
 
